@@ -7,4 +7,14 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.2.2" />
+      <PackageReference Include="MassTransitRMQExtensions" Version="8.0.20220809.1" />
+      <PackageReference Include="Winton.Extensions.Configuration.Consul" Version="3.3.0-master0001" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Configurations\Consul" />
+    </ItemGroup>
+
 </Project>
