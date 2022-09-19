@@ -1,10 +1,11 @@
+using Integrations.Diadoc.Service.Configurations.Consul;
 using MassTransitRMQExtensions;
 using MassTransitRMQExtensions.Models;
 using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.AddConsul();
+builder.AddConsul();
 
 var rabbitConfig = builder.Configuration.GetSection("Rabbit");
 var mqConfig = new RabbitMqConfig(rabbitConfig["UserName"], rabbitConfig["Password"],
