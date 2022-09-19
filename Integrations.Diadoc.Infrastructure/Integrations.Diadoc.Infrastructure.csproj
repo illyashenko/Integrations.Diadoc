@@ -11,7 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="DiadocSDK" Version="1.72.1" />
+      <PackageReference Include="DiadocSDK" Version="2.11.3" />
       <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
     </ItemGroup>
 

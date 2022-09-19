@@ -19,7 +19,7 @@ public class AuthToken : IAuthToken
     {
         var token = await Cache.GetOrCreateAsync(employee.Login, async entry =>
         {
-            var responseToken = await Api.AuthenticateAsync(employee.Login, employee.Password);
+            var responseToken = await this.Api.AuthenticateAsync(employee.Login, employee.Password);
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
             return responseToken;
         });
