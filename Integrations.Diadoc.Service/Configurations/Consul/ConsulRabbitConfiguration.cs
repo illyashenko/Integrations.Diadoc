@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Integrations.SberLogistica.Configurations.Consul;
+namespace Integrations.Diadoc.Service.Configurations.Consul;
 
 public class ConsulRabbitConfiguration
 {
