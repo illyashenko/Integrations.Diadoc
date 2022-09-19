@@ -8,13 +8,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="DiadocSDK" Version="2.11.3" />
       <PackageReference Include="FluentValidation" Version="11.2.2" />
       <PackageReference Include="MassTransitRMQExtensions" Version="8.0.20220809.1" />
+      <PackageReference Include="NLog" Version="5.0.4" />
+      <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.4" />
       <PackageReference Include="Winton.Extensions.Configuration.Consul" Version="3.3.0-master0001" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Configurations\Consul" />
+      <Folder Include="Helpers" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Integrations.Diadoc.Infrastructure\Integrations.Diadoc.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

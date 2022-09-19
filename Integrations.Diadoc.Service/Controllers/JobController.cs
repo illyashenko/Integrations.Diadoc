@@ -2,10 +2,10 @@
 
 namespace Integrations.Diadoc.Service.Controllers;
 
-public class DocumentsController
+public class JobController
 {
     [RunJob("1/5 * * * * ?")]
-    public void Start()
+    public void ProcessJobs()
     {
         Console.WriteLine("Test!!");
     }
