@@ -5,7 +5,7 @@ namespace Integrations.Diadoc.Service.Configurations.Consul;
 public class ConsulDbConfiguration
 {
     public string? Apt { get; set; }
-    public string? SberLogistica { get; set; }
+    public string? Monitoring { get; set; }
 }
 
 public class ConsulDbConfigurationValidator : AbstractValidator<ConsulDbConfiguration>
@@ -17,9 +17,9 @@ public class ConsulDbConfigurationValidator : AbstractValidator<ConsulDbConfigur
             .NotEmpty()
             .WithMessage(r => $"Поле {nameof(r.Apt)} не найдено.");
 
-        RuleFor(r => r.SberLogistica)
+        RuleFor(r => r.Monitoring)
             .NotNull()
             .NotEmpty()
-            .WithMessage(r => $"Поле {nameof(r.SberLogistica)} не найдено.");
+            .WithMessage(r => $"Поле {nameof(r.Monitoring)} не найдено.");
     }
 }

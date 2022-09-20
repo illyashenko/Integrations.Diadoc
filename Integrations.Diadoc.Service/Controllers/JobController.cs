@@ -4,9 +4,9 @@ namespace Integrations.Diadoc.Service.Controllers;
 
 public class JobController
 {
-    [RunJob("1/5 * * * * ?")]
-    public void ProcessJobs()
+    [RunJob("1/30 * * * * ?")]
+    public async void ProcessJobs()
     {
-        Console.WriteLine("Test!!");
+        Console.WriteLine("!!! TEST !!!");
     }
 }
