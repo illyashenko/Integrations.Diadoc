@@ -1,6 +1,16 @@
-﻿namespace Integrations.Diadoc.Data.Apt;
+﻿using Microsoft.EntityFrameworkCore;
+using PickPoint.Models.Data;
 
-public class AptContext
+namespace Integrations.Diadoc.Data.Apt;
+
+public class AptContext : AptContext<AptContext>
 {
 
+    public AptContext(DbContextOptions<AptContext> context) : base(context)
+    {
+    }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
 }

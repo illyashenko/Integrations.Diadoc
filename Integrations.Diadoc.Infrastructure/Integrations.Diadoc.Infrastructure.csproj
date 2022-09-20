@@ -7,6 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Integrations.Diadoc.Data\Integrations.Diadoc.Data.csproj" />
       <ProjectReference Include="..\Integrations.Diadoc.Domain\Integrations.Diadoc.Domain.csproj" />
     </ItemGroup>
 

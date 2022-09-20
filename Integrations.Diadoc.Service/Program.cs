@@ -1,12 +1,15 @@
+using System.Configuration;
 using Diadoc.Api;
 using Diadoc.Api.Cryptography;
+using Integrations.Diadoc.Data.Apt;
+using Integrations.Diadoc.Data.Monitoring;
 using Integrations.Diadoc.Domain.Models.Settings;
-using Integrations.Diadoc.Domain.Stores;
 using Integrations.Diadoc.Infrastructure.Stores;
 using Integrations.Diadoc.Infrastructure.SubServices;
 using Integrations.Diadoc.Service.Configurations.Consul;
 using MassTransitRMQExtensions;
 using MassTransitRMQExtensions.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,13 +28,16 @@ builder.Services.AddSingleton<IDiadocApi>(sd => new DiadocApi(
     diadocSettings["ApiUrl"],
     new WinApiCrypt()));
 
+builder.Services.AddDbContext<MonitoringContext>(context => context.UseSqlServer(builder.Configuration.GetConnectionString("Monitoring")));
+builder.Services.AddDbContext<AptContext>(context => context.UseSqlServer(builder.Configuration.GetConnectionString("Apt")));
+
 builder.Services.Configure<CommonSettings>(builder.Configuration.GetSection("CommonSettings"));
 
 builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 builder.Services.AddSingleton<IAuthToken, AuthToken>();
 
-builder.Services.AddTransient<IAptStore, AptStore>();
-builder.Services.AddTransient<IMonitoringStore, MonitoringStore>();
+builder.Services.AddTransient<AptStore>();
+builder.Services.AddTransient<MonitoringStore>();
 
 var app = builder.Build();
 
