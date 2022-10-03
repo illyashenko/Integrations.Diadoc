@@ -8,14 +8,16 @@ namespace Integrations.Diadoc.Data.Apt.Entities
     {
         public string OrgId { get;set; }
         public string BoxId { get; set; }
-        public string Title { get; set; }
+        public string? Title { get; set; }
         public bool ServiceCode { get; set; }
-        public CrmClients CrmClients { get; set; }
+        public CrmClients? CrmClients { get; set; }
     }
     public class DiadocOrganizationsBoxIdConfiguration : LegacyTableConfiguration<DiadocOrganizationsBoxId>
     {
         public override void Configure(EntityTypeBuilder<DiadocOrganizationsBoxId> builder)
         {
+            base.Configure(builder);
+            
             builder.ToTable("DiadocOrganizationsBoxId");
             builder.Property(p => p.OrgId).HasColumnName("OrgId");
             builder.Property(p => p.BoxId).HasColumnName("BoxId");

@@ -5,7 +5,7 @@ using SpeciVacation;
 
 namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
 {
-    public class HasJobDateOfCreateSpecification : Specification<Jobs>
+    public class HasJobDateOfCreateSpecification : Specification<Job>
     {
         private DateTime DateFrom { get; set; }
 
@@ -14,7 +14,7 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
             this.DateFrom = dateFrom;
         }
         
-        public override Expression<Func<Jobs, bool>> ToExpression()
+        public override Expression<Func<Job, bool>> ToExpression()
         {
             return j => j.CreateDate > DateFrom;
         }

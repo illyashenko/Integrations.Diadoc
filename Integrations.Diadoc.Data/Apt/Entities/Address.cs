@@ -6,9 +6,9 @@ namespace Integrations.Diadoc.Data.Apt.Entities
 {
     public class Addresses : LegacyTable
     {
-        public string PostCode { get; set; }
+        public string? PostCode { get; set; }
 
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         public int CitiesId { get; set; }
 
@@ -19,6 +19,8 @@ namespace Integrations.Diadoc.Data.Apt.Entities
     {
         public override void Configure(EntityTypeBuilder<Addresses> builder)
         {
+            base.Configure(builder);
+            
             builder.ToTable("Addresses");
             builder.Property(p => p.Address).HasColumnName("Address");
             builder.Property(p => p.PostCode).HasColumnName("PostCode");

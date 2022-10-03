@@ -4,7 +4,7 @@ public enum OperationId
 {
     Default = 0,
     //
-    Sending_Documents = 1600,
-    Sending_Clients = 1601,    
-    Monitoring_Documents = 2900   
+    SendingDocuments = 1600,
+    SendingClients = 1601,    
+    MonitoringDocuments = 2900
 }

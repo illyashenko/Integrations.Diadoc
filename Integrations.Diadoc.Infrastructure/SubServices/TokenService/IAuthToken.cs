@@ -1,6 +1,6 @@
 ﻿using Integrations.Diadoc.Domain.Models.Settings;
 
-namespace Integrations.Diadoc.Infrastructure.SubServices;
+namespace Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 
 public interface IAuthToken
 {

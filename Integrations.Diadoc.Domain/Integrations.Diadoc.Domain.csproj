@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="DTOs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="DiadocSDK" Version="2.11.3" />
+      <PackageReference Include="PickPoint.Models" Version="1.2.0" />
+    </ItemGroup>
+
 </Project>

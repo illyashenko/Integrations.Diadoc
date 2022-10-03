@@ -9,9 +9,9 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
 {
     public static class JobFilterConverter
     {
-        public static Expression<Func<Jobs, bool>> ToExpression(this JobFilter filter)
+        public static Expression<Func<Job, bool>> ToExpression(this JobFilter filter)
         {
-            ISpecification<Jobs> spec = Specification<Jobs>.None;
+            ISpecification<Job> spec = Specification<Job>.None;
 
             if (filter.Status != JobStatus.Default)
             {

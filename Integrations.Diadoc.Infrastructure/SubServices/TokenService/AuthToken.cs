@@ -2,7 +2,7 @@
 using Integrations.Diadoc.Domain.Models.Settings;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Integrations.Diadoc.Infrastructure.SubServices;
+namespace Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 
 public class AuthToken : IAuthToken
 {
@@ -20,7 +20,7 @@ public class AuthToken : IAuthToken
         var token = await Cache.GetOrCreateAsync(employee.Login, async entry =>
         {
             var responseToken = await this.Api.AuthenticateAsync(employee.Login, employee.Password);
-            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12);
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
             return responseToken;
         });
 

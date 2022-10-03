@@ -4,32 +4,23 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Data.Models.MonitoringContext
 {
-    public class Jobs
+    public class Job
     {
         public int Id { get; set; }
         public OperationId OperationId { get; set; }
-
         public JobStatus Status { get; set; }
-
         public string Data { get; set; }
-
         public DateTime CreateDate { get; set; }
-
         public DateTime StartDate { get; set; }
-
         public DateTime? ProcessedDate { get; set; }
-
-        public ServerId ServerId { get; set; } 
-
+        public ServerId ServerId { get; set; }
         public ExecuteCodes? ExecuteCode { get; set; }
-        
         public string? ExecuteMessage { get; set; }
-
         public int? AttemptIndex { get; set; }
     }
-    public class JobsConfiguration : IEntityTypeConfiguration<Jobs>
+    public class JobsConfiguration : IEntityTypeConfiguration<Job>
     {
-        public void Configure(EntityTypeBuilder<Jobs> builder)
+        public void Configure(EntityTypeBuilder<Job> builder)
         {
             builder.ToTable("Jobs");
             builder.Property(p => p.Id).HasColumnName("id");

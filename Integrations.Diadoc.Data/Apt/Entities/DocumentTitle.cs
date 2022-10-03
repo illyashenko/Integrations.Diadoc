@@ -10,19 +10,17 @@ namespace Integrations.Diadoc.Data.Apt.Entities
 {
     public class DocumentTitle
     {
-        [Key]
         public int DocumentId { get; set; }
         public int DocumentOwnerId { get; set; }
-        public DocumentTypes DocumentType { get; set; }
-        public string DocumentNumber { get; set; }
+        public DocumentTypes? DocumentType { get; set; }
+        public string? DocumentNumber { get; set; }
+        public DateTime? DocumentDate { get; set; }
+        public TitleString? TitleString { get; set; }
         
-        public DateTime DocumentDate { get; set; }
-        public TitleString TitleString { get; set; }
+        //public BillSum? BillSums { get; set; }
         
-        public BillSums BillSums { get; set; }
-        
-        public virtual ICollection<TitleString> TitleStrings { get; set; }
-        public virtual ICollection<BillSums> BillSumsCollection { get; set; }
+        public virtual ICollection<TitleString>? TitleStrings { get; set; }
+        public virtual ICollection<BillSum>? BillSumsCollection { get; set; }
 
     }
     public class DocumentTitleConfiguration : IEntityTypeConfiguration<DocumentTitle> 
@@ -30,7 +28,8 @@ namespace Integrations.Diadoc.Data.Apt.Entities
         public void Configure(EntityTypeBuilder<DocumentTitle> builder)
         {
             builder.ToTable("DocumentTitle");
-            builder.Property(p => p.DocumentId).HasColumnName("id");
+            builder.HasKey(p => p.DocumentId);
+            builder.Property(p => p.DocumentOwnerId).HasColumnName("id");
             builder.Property(p => p.DocumentOwnerId).HasColumnName("Owner_id");
             builder.Property(p => p.DocumentType).HasColumnName("DocumentType");
             builder.Property(p => p.DocumentNumber).HasColumnName("DocumentNumber");

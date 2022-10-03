@@ -14,6 +14,8 @@ namespace Integrations.Diadoc.Data.Apt.Entities
     {
         public override void Configure(EntityTypeBuilder<Regions> builder)
         {
+            base.Configure(builder);
+            
             builder.ToTable("Regions");
             builder.Property(p => p.RegionName).HasColumnName("RegionName");
         }

@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Apt\Entities" />
-      <Folder Include="Monitoring\Entities" />
       <Folder Include="Monitoring\Enums" />
       <Folder Include="Monitoring\Specifications\ForJobs" />
     </ItemGroup>

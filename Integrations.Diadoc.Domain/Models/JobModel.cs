@@ -2,7 +2,7 @@
 
 namespace Integrations.Diadoc.Domain.Models;
 
-public class Job
+public class JobModel
 {
     public int Id { get; set; }
     public OperationId OperationId { get; set; }

@@ -10,33 +10,32 @@ namespace Integrations.Diadoc.Infrastructure.Stores;
 
 public class MonitoringStore
 {
-    private MonitoringContext db { get; }
+    private MonitoringContext Context { get; }
 
-    public MonitoringStore(MonitoringContext db)
+    public MonitoringStore(MonitoringContext context)
     {
-        this.db = db;
+        this.Context = context;
     }
 
-    public async Task<IEnumerable<Job>> GetJobs(JobFilter filter)
+    public async Task<IEnumerable<JobModel>> GetJobs(JobFilter filter)
     {
-        var listJobs = await this.db.Jobs.Where(filter.ToExpression())
-            .Select(j => new Job()
+        return await this.Context.Jobs.Where(filter.ToExpression())
+            .Select(j => new JobModel()
             {
                 Id = j.Id,
                 OperationId = j.OperationId,
                 Status = j.Status,
                 Data = JsonConvert.DeserializeObject<RequestIdData>(j.Data)
-            }).ToListAsync();
-        return listJobs;
+            }).Take(100).ToListAsync();
     }
 
-    public async Task UpdateJobsStatus(IEnumerable<Job> jobs)
+    public async Task UpdateJobsStatus(IEnumerable<JobModel> jobs)
     {
-        List<Jobs> jobsListForUpdate = new();
+        List<Job> jobsListForUpdate = new();
 
         foreach (var jobModel in jobs)
         {
-            var jobDb = await this.db.Jobs.FindAsync(jobModel.Id);
+            var jobDb = await this.Context.Jobs.SingleAsync(el=>el.Id == jobModel.Id);
                 
             jobDb.Status = jobModel.Status;
             jobDb.ExecuteCode = jobModel.ExecuteCode;
@@ -45,12 +44,7 @@ public class MonitoringStore
                  
             jobsListForUpdate.Add(jobDb);
         }
-
-        this.db.Jobs.UpdateRange(jobsListForUpdate);
-        await this.db.SaveChangesAsync();
-    }
-    public async Task GetJob()
-    {
-        var job = await this.db.Jobs.FirstOrDefaultAsync();
+        this.Context.Jobs.UpdateRange(jobsListForUpdate);
+        await this.Context.SaveChangesAsync();
     }
 }

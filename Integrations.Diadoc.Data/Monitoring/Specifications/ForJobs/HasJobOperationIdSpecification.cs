@@ -6,7 +6,7 @@ using SpeciVacation;
 
 namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
 {
-    public class HasJobOperationIdSpecification : Specification<Jobs>
+    public class HasJobOperationIdSpecification : Specification<Job>
     {
         private OperationId OperationId { get; set; }
 
@@ -15,7 +15,7 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
             this.OperationId = operationId;
         }
 
-        public override Expression<Func<Jobs, bool>> ToExpression()
+        public override Expression<Func<Job, bool>> ToExpression()
         {
             return j => j.OperationId == this.OperationId;
         }
