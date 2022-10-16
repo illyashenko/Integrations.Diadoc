@@ -1,16 +1,14 @@
-using System.Configuration;
 using Diadoc.Api;
 using Diadoc.Api.Cryptography;
 using Integrations.Diadoc.Data.Apt;
 using Integrations.Diadoc.Data.Monitoring;
 using Integrations.Diadoc.Domain.Models.Settings;
 using Integrations.Diadoc.Infrastructure.Stores;
-using Integrations.Diadoc.Infrastructure.SubServices;
+using Integrations.Diadoc.Infrastructure.SubServices.DiadocService;
 using Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 using Integrations.Diadoc.Infrastructure.SubServices.Pusher;
 using Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 using Integrations.Diadoc.Service.Configurations.Consul;
-using Integrations.Diadoc.Service.Helpers;
 using MassTransitRMQExtensions;
 using MassTransitRMQExtensions.Models;
 using Microsoft.EntityFrameworkCore;
@@ -42,8 +40,10 @@ builder.Services.AddSingleton<IAuthToken, AuthToken>();
 
 builder.Services.AddTransient<AptStore>();
 builder.Services.AddTransient<MonitoringStore>();
-builder.Services.AddTransient<DiadocExecutors>();
+builder.Services.AddTransient<DiadocSenderService>();
+builder.Services.AddTransient<DiadocExecutor>();
 builder.Services.AddTransient<IDiadocPusher, DiadocPusher>();
+builder.Services.AddTransient<IBuildUserData, BuildUserData>();
 
 var app = builder.Build();
 
