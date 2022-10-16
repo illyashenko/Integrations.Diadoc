@@ -31,7 +31,7 @@ public class JobController
         };
 
         var jobs = await this._store.GetJobs(filter);
-
+        
         if (jobs.Any())
         {
             foreach (var job in jobs)

@@ -6,14 +6,14 @@ namespace Integrations.Diadoc.Domain.DTOs
     public class DataForUniversalTransferDocument
     {
         public DateTime DocumentDate { get; set; }
-        public string DocumentNumber { get; set; }
-        public string Title { get; set; }
+        public string? DocumentNumber { get; set; }
+        public string? Title { get; set; }
         public FunctionType Function { get; set; }
-        public string ContractNumber { get; set; } // BaseDocumentName
+        public string? ContractNumber { get; set; } // BaseDocumentName
         public DateTime ContractDate { get; set; } // BaseDocumentDate
-        public string AgentContractNumber { get; set; } // F@ ZARA
+        public string? AgentContractNumber { get; set; } // F@ ZARA
 
-        public string ClientOrganizationName { get; set; }
+        public string? ClientOrganizationName { get; set; }
         public string ClientInn { get; init; } = string.Empty;
         public string ClientKpp { get; init; } = string.Empty;
         public bool ServiceCode { get; set; } = false;
@@ -31,14 +31,14 @@ namespace Integrations.Diadoc.Domain.DTOs
         */
 
         public OrganizationType OrganizationType { get; set; }
-        public string BoxToId { get; set; }
+        public string? BoxToId { get; set; }
 
-        public string ClientInnKpp
+        public string? ClientInnKpp
         {
             get => innkpp;
             init
             {
-                innkpp = value.Trim();
+                innkpp = value?.Trim();
 
                 if (!string.IsNullOrEmpty(innkpp))
                 {
@@ -59,7 +59,7 @@ namespace Integrations.Diadoc.Domain.DTOs
 
         public int Upd
         {
-            get { return upd; }
+            get => upd;
             set
             {
                 upd = value;
@@ -73,9 +73,9 @@ namespace Integrations.Diadoc.Domain.DTOs
             }
         }
 
-        public IEnumerable<DocumentTableItem> TableItems { get; set; }
+        public IEnumerable<DocumentTableItem>? TableItems { get; set; } 
 
-        private string innkpp;
+        private string? innkpp;
         private int upd;
     }
 }

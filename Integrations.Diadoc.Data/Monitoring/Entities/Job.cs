@@ -9,7 +9,7 @@ namespace Data.Models.MonitoringContext
         public int Id { get; set; }
         public OperationId OperationId { get; set; }
         public JobStatus Status { get; set; }
-        public string Data { get; set; }
+        public string? Data { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? ProcessedDate { get; set; }

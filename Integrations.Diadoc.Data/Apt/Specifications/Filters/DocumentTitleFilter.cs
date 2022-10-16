@@ -5,9 +5,9 @@ namespace Integrations.Diadoc.Data.Apt.Specifications.Filters;
 
 public class DocumentTitleFilter
 {
-    public IEnumerable<PickPointKey> Keys { get; set; }
-    public PickPointKey Key { get; set; }
-    public IEnumerable<DocumentTypes> Types { get; set; }
+    public IEnumerable<PickPointKey>? Keys { get; set; }
+    public PickPointKey? Key { get; set; }
+    public IEnumerable<DocumentTypes>? Types { get; set; }
     public static DocumentTitleFilter GetFilterDocumentReport(PickPointKey key)
     {
         return new DocumentTitleFilter()

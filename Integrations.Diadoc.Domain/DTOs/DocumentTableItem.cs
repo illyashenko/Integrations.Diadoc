@@ -4,9 +4,9 @@ namespace Integrations.Diadoc.Domain.DTOs
 {
     public class DocumentTableItem
     {
-        public string TypeName { get; set; }
-        public string TypeNamePrint { get; set; }
-        public string Measure { get; set; }
+        public string? TypeName { get; set; }
+        public string? TypeNamePrint { get; set; }
+        public string? Measure { get; set; }
         public int Quantity { get; set; }
         public VatRate VatRate { get; set; }
         public decimal Tariff { get; set; }
@@ -18,6 +18,6 @@ namespace Integrations.Diadoc.Domain.DTOs
         public int StOwnerId { get; set; }
         public int HasInvoice { get; set; } 
         
-        public string Product { get; set; }
+        public string? Product { get; set; }
     }
 }

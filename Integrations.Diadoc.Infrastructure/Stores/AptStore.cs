@@ -82,7 +82,7 @@ public class AptStore
     
         var dataUpd = await dataQueryUpd.FirstOrDefaultAsync();
     
-        if (dataUpd != null && dataUpd.TableItems.Count() != 0)
+        if (dataUpd is not null && !dataUpd.TableItems.Any())
         {
             foreach (var item in dataUpd.TableItems)
             {

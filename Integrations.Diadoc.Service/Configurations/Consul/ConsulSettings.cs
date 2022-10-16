@@ -6,6 +6,6 @@ public class ConsulSettings
     public const string ConsulKey = "CONSUL_KEY";
     public const string Token = "CONSUL_TOKEN";
 
-    public string Key { get; set; }
-    public string Host { get; set; }
+    public string? Key { get; set; }
+    public string? Host { get; set; }
 }

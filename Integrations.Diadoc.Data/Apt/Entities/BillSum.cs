@@ -52,7 +52,6 @@ namespace Integrations.Diadoc.Data.Apt.Entities
                 .WithMany(b=>b.BillSumsCollection)
                 .HasPrincipalKey(dt => new {dt.DocumentId, dt.DocumentOwnerId})
                 .HasForeignKey(b => new {b.BillId, b.BillOwnerId});
-
         }
     }
 }

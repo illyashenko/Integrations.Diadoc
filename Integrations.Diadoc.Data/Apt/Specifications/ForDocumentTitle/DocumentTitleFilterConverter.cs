@@ -11,11 +11,11 @@ namespace Integrations.Diadoc.Data.Apt.Specifications.ForDocumentTitle
         {
             ISpecification<DocumentTitle> specification = Specification<DocumentTitle>.None;
 
-            if (filter.Key != null)
+            if (filter.Key is not null)
             {
                 specification = specification.Or(new HasDocumentTitleKeySpecification(filter.Key));
             }
-            if (filter.Types.Count() != 0)
+            if (filter.Types is not null && filter.Types.Any())
             {
                 specification =
                     specification.And(HasDocumentTitleToDocumentTypeSpecification.AsOr(filter.Types));
