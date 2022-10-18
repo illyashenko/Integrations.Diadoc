@@ -34,6 +34,7 @@ builder.Services.AddDbContext<MonitoringContext>(context => context.UseSqlServer
 builder.Services.AddDbContext<AptContext>(context => context.UseSqlServer(builder.Configuration.GetConnectionString("Apt")));
 
 builder.Services.Configure<CommonSettings>(builder.Configuration.GetSection("CommonSettings"));
+builder.Services.Configure<JobSettings>(builder.Configuration);
 
 builder.Services.AddSingleton<IMemoryCache, MemoryCache>();
 builder.Services.AddSingleton<IAuthToken, AuthToken>();

@@ -13,7 +13,7 @@ namespace Data.Models.MonitoringContext
         public DateTime CreateDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? ProcessedDate { get; set; }
-        public ServerId ServerId { get; set; }
+        public int ServerId { get; set; }
         public ExecuteCodes? ExecuteCode { get; set; }
         public string? ExecuteMessage { get; set; }
         public int? AttemptIndex { get; set; }

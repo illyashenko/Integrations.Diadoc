@@ -29,7 +29,7 @@ namespace Integrations.Diadoc.Data.Apt.Entities
         {
             builder.ToTable("DocumentTitle");
             builder.HasKey(p => p.DocumentId);
-            builder.Property(p => p.DocumentOwnerId).HasColumnName("id");
+            builder.Property(p => p.DocumentId).HasColumnName("id");
             builder.Property(p => p.DocumentOwnerId).HasColumnName("Owner_id");
             builder.Property(p => p.DocumentType).HasColumnName("DocumentType");
             builder.Property(p => p.DocumentNumber).HasColumnName("DocumentNumber");

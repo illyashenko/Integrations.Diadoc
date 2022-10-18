@@ -7,5 +7,5 @@ public class JobFilter
     public JobStatus Status { get; set; } = JobStatus.Default;
     public OperationId OperationId { get; set; } = OperationId.Default;
     public DateTime DateFrom { get; set; } = DateTime.MinValue;
-    public ServerId ServerId { get; set; } = 0; 
+    public int ServerId { get; set; } = 0; 
 }

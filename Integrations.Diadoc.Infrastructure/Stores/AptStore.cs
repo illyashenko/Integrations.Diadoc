@@ -82,21 +82,21 @@ public class AptStore
     
         var dataUpd = await dataQueryUpd.FirstOrDefaultAsync();
     
-        if (dataUpd is not null && !dataUpd.TableItems.Any())
+        if (dataUpd is not null && dataUpd.TableItems!.Any())
         {
-            foreach (var item in dataUpd.TableItems)
+            foreach (var item in dataUpd.TableItems!)
             {
                 if (item.Product == String.Empty)
                 {
                     var serviceTypeNameContract = await GetProductName(item.IntValue, item.IntValue1, item.StId, item.StOwnerId);
                     item.Product = CustomIsEmpty(serviceTypeNameContract,
-                        CustomIsEmpty(item.TypeNamePrint, item.TypeName));
+                        CustomIsEmpty(item.TypeNamePrint!, item.TypeName!));
                 }
     
             }
         }
     
-        return dataUpd;
+        return dataUpd!;
     }
 
     public async Task<SendingDocument> GetDataForSendingDocument(RequestIdData data)
@@ -109,10 +109,10 @@ public class AptStore
                 DocumentOwnerId = p.DocumentOwnerId,
                 Content = p.Content,
                 FileName = p.FileName,
-                Bill = p.Bill
+                Bill = p.Bill ?? false
             }).FirstOrDefaultAsync();
 
-        return sendingDocument;
+        return sendingDocument!;
     }
 
     public async Task<string> GetOrganizationId(DocumentTitleFilter filter)
@@ -137,9 +137,9 @@ public class AptStore
         Parameters st = new Parameters("st_id", stId);
         Parameters stO = new Parameters("st_owner_id", stOwnerId);
 
-        var name = await this.apt.ScalarStrings.FromSqlRaw(DiadocNameConstants.fn_bc_GetServiceTypeNameContract, id, ownerId, st, stO)
-            .ToListAsync().ConfigureAwait(false);
+        var names = await this.apt.ScalarStrings.FromSqlRaw(DiadocNameConstants.fn_bc_GetServiceTypeNameContract, id, ownerId, st, stO)
+            .ToListAsync();
 
-        return name.FirstOrDefault()?.Value ?? String.Empty;
+        return names.First().Value ?? String.Empty;
     }
 }

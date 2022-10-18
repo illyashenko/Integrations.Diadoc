@@ -8,9 +8,9 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
 {
     public class HasJobServerIdSpecification : Specification<Job>
     {
-        private ServerId ServerId { get; set; }
+        private int ServerId { get; set; }
 
-        public HasJobServerIdSpecification(ServerId serverId) 
+        public HasJobServerIdSpecification(int serverId) 
         {
             this.ServerId = serverId;
         }

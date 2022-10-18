@@ -2,11 +2,11 @@
 {
     public class ScalarString
     {
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         public override string ToString()
         {
-            return Value.ToString();
+            return Value!.ToString();
         }
     }
 }

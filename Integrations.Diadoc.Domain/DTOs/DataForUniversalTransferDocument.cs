@@ -35,22 +35,22 @@ namespace Integrations.Diadoc.Domain.DTOs
 
         public string? ClientInnKpp
         {
-            get => innkpp;
+            get => _innKpp;
             init
             {
-                innkpp = value?.Trim();
+                _innKpp = value?.Trim();
 
-                if (!string.IsNullOrEmpty(innkpp))
+                if (!string.IsNullOrEmpty(_innKpp))
                 {
-                    if (innkpp.Length == 12)
+                    if (_innKpp.Length == 12)
                     {
-                        this.ClientInn = innkpp;
+                        this.ClientInn = _innKpp;
                         this.OrganizationType = OrganizationType.IndividualEntity;
                     }
                     else
                     {
-                        this.ClientInn = this.innkpp.Substring(0, 10);
-                        this.ClientKpp = this.innkpp.Substring(11);
+                        this.ClientInn = this._innKpp.Substring(0, 10);
+                        this.ClientKpp = this._innKpp.Substring(11);
                         this.OrganizationType = OrganizationType.LegalEntity;
                     }
                 }
@@ -59,13 +59,13 @@ namespace Integrations.Diadoc.Domain.DTOs
 
         public int Upd
         {
-            get => upd;
+            get => _upd;
             set
             {
-                upd = value;
+                _upd = value;
                 Function = FunctionType.СЧФ;
                 Title = "Счет-фактура";
-                if (upd == 1)
+                if (_upd == 1)
                 {
                     Function = FunctionType.СЧФДОП;
                     Title = "УПД";
@@ -73,9 +73,14 @@ namespace Integrations.Diadoc.Domain.DTOs
             }
         }
 
-        public IEnumerable<DocumentTableItem>? TableItems { get; set; } 
+        public IEnumerable<DocumentTableItem>? TableItems { get; set; }
 
-        private string? innkpp;
-        private int upd;
+        public bool ValidateBoxId()
+        {
+            return !String.IsNullOrEmpty(this.BoxToId);
+        }
+
+        private string? _innKpp;
+        private int _upd;
     }
 }

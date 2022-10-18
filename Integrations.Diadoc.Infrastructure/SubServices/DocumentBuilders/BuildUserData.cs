@@ -35,18 +35,18 @@ public class BuildUserData : IBuildUserData
             this.Api = api;
             this.AptStore = aptStore;
             this.AuthToken = authToken;
-            this.EmployeeSettings = this.Settings.EmployeeSettings.First(el=>el.Position == EmployeePosition.AccountManager);
+            this.EmployeeSettings = this.Settings.EmployeeSettings?.First(el=>el.Position == EmployeePosition.AccountManager)!;
         }
 
         public async Task<MessageToPost> BuildMessageToPost(RequestIdData data)
         {
             var messageToPost = new MessageToPost();
             var sendingDocument = await AptStore.GetDataForSendingDocument(data);
-
+            
             messageToPost.FromBoxId = Settings.FromBoxId;
             await AddNonformalizedDocument(sendingDocument, messageToPost);
 
-            if (sendingDocument.Bill ?? false)
+            if (sendingDocument.Bill)
             {
                 await BuildUserDataUniversalDocument(sendingDocument, messageToPost);
             }
@@ -64,11 +64,16 @@ public class BuildUserData : IBuildUserData
         private async Task BuildUserDataUniversalDocument(SendingDocument sendingData, MessageToPost messageToPost)
         {
             var documentDescription =
-                await Api.GetDocumentTypesV2Async(await AuthToken.GetAccessToken(Settings.EmployeeSettings[0]),
+                await Api.GetDocumentTypesV2Async(await AuthToken.GetAccessToken(this.EmployeeSettings),
                     Settings.FromBoxId);
 
             var dataUtd =
                 await AptStore.GetDataForMessagePost(DocumentTitleFilter.GetFilterDocumentReport(sendingData.Key));
+
+            if (!dataUtd.ValidateBoxId())
+            {
+                throw new Exception("поле BoxId не соответствует, или пустое!");
+            }
 
             var typeNameId = documentDescription.DocumentTypes.Find(dt => dt.Title == DiadocNameConstants.GetTitle(dataUtd.Upd));
             var documentFunction = typeNameId?.Functions
@@ -80,8 +85,8 @@ public class BuildUserData : IBuildUserData
             
             var documentToXml = new Hyphens.UniversalTransferDocumentWithHyphens
             {
-                Sellers = BuilderHelper.GetSellers(Settings.FromBoxId),
-                Signers = BuilderHelper.GetSigners(Settings.FromBoxId, Settings.CertificateThumbprint),
+                Sellers = BuilderHelper.GetSellers(Settings.FromBoxId ?? String.Empty),
+                Signers = BuilderHelper.GetSigners(Settings.FromBoxId?? String.Empty, Settings.CertificateThumbprint ?? String.Empty),
                 Shippers = BuilderHelper.GetShippers(),
                 Buyers = BuilderHelper.GetBayer(dataUtd),
                 TransferInfo = new Hyphens.TransferInfo
@@ -113,7 +118,7 @@ public class BuildUserData : IBuildUserData
                 {
                     Content = documentXml.Content
                 },
-                TypeNamedId = typeNameId.Name
+                TypeNamedId = typeNameId?.Name
                 
             };
             
@@ -125,7 +130,7 @@ public class BuildUserData : IBuildUserData
                 var contractForAct = documentToXml.SerializeToXml();
                 var documentXmlForAct = await Api.GenerateTitleXmlAsync(await AuthToken.GetAccessToken(this.EmployeeSettings)
                     , Settings.FromBoxId, DiadocNameConstants.TypeNameId, DiadocNameConstants.DefaultName
-                    , documentVersion.Version, indexTitle, contractForAct);
+                    , documentVersion?.Version, indexTitle, contractForAct);
 
                 var attachmentAct = new DocumentAttachment
                 {
@@ -174,8 +179,8 @@ public class BuildUserData : IBuildUserData
 
             var attachment = new NonformalizedAttachment
             {
-                DocumentDate = dataForMessageToPost.AttachmentModel.DocumentDate.ToString(),
-                DocumentNumber = dataForMessageToPost.AttachmentModel.DocumentNumber,
+                DocumentDate = dataForMessageToPost.AttachmentModel?.DocumentDate.ToString(),
+                DocumentNumber = dataForMessageToPost.AttachmentModel?.DocumentNumber,
                 FileName = sendingDocument.FileName,
                 SignedContent = new SignedContent
                 {
