@@ -39,7 +39,7 @@
                 logging:
                   driver: "fluentd"
                   options:
-                    tag: "integrations-ofd_{{ 'production' if ENVIRONMENT == 'Production' else 'staging'}}"
+                    tag: "integrations-diadoc_{{ 'production' if ENVIRONMENT == 'Production' else 'staging'}}"
 
       vars:
         REGISTRY: "pandora.pickpoint.lcl"
