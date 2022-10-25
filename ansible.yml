@@ -1,0 +1,48 @@
+- hosts: "{{ 'dock-prod-nodes' if ENVIRONMENT == 'Production' else 'dock-stag-nodes'}}"
+  tasks:
+
+    - name: pull an image
+      docker_image:
+        name: "{{ REGISTRY }}/{{ IMAGE }}:{{ BUILD }}"
+        source: pull
+      vars:
+        REGISTRY: "pandora.pickpoint.lcl"
+        IMAGE: "integrations-diadoc"
+        BUILD: "latest"
+
+- hosts: "{{ 'dock-prod-m1' if ENVIRONMENT == 'Production' else 'dock-stag-m1'}}"
+  tasks:
+
+    - name: Copy docker-compose.yml for docker stack deploy
+      copy:
+        src: docker-compose.yml
+        dest: /tmp/
+
+    - name: Deploy stack from base compose file and override the web service
+      docker_stack:
+        state: present
+        name: "{{ STACK }}"
+
+        compose:
+          - /tmp/docker-compose.yml
+
+          - version: '3.4'
+
+            services:
+              daemon:
+                image: "{{ REGISTRY }}/{{ IMAGE }}:{{ BUILD }}"
+                environment:
+                  ASPNETCORE_ENVIRONMENT: "{{ ENVIRONMENT }}"
+                  CONSUL_KEY: "appsettings/{{ ENVIRONMENT }}/Diadoc/config"
+                  CONSUL_TOKEN: "{{ CONSUL_TOKEN }}"
+                  CONSUL_HOST: "{{ CONSUL_URL }}"
+                logging:
+                  driver: "fluentd"
+                  options:
+                    tag: "integrations-ofd_{{ 'production' if ENVIRONMENT == 'Production' else 'staging'}}"
+
+      vars:
+        REGISTRY: "pandora.pickpoint.lcl"
+        IMAGE: "integrations-diadoc"
+        BUILD: "latest"
+        STACK: "integrations-diadoc"

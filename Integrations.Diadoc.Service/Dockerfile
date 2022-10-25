@@ -5,8 +5,11 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
+COPY ["Integrations.Diadoc.Data/Integrations.Diadoc.Data.csproj", "Integrations.Diadoc.Data/"]
+COPY ["Integrations.Diadoc.Domain/Integrations.Diadoc.Domain.csproj", "Integrations.Domain.Service/"]
+COPY ["Integrations.Diadoc.Infrastructure/Integrations.Diadoc.Infrastructure.csproj", "Integrations.Diadoc.Infrastructure/"]
 COPY ["Integrations.Diadoc.Service/Integrations.Diadoc.Service.csproj", "Integrations.Diadoc.Service/"]
-RUN dotnet restore "Integrations.Diadoc.Service/Integrations.Diadoc.Service.csproj"
+RUN dotnet restore -s "https://api.nuget.org/v3/index.json" -s "http://tfs-ds-01.pickpoint.lcl/nuget" "Integrations.Diadoc.Service/Integrations.Diadoc.Service.csproj"
 COPY . .
 WORKDIR "/src/Integrations.Diadoc.Service"
 RUN dotnet build "Integrations.Diadoc.Service.csproj" -c Release -o /app/build

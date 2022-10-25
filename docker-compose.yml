@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  daemon:
+    image: integrations-diadoc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - CONSUL_HOST=${CONSUL_URL}
+      - CONSUL_KEY=appsettings/Development/Diadoc/config
+      - CONSUL_TOKEN=${CONSUL_TOKEN}
+    build:
+      context: .
+      dockerfile: Integrations.Diadoc.Service/Dockerfile
