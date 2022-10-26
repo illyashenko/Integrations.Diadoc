@@ -112,7 +112,7 @@ public class AptStore
                 DocumentOwnerId = p.DocumentOwnerId,
                 Content = p.Content,
                 FileName = p.FileName,
-                Bill = p.Bill ?? false
+                Bill = p.Bill
             }).FirstOrDefaultAsync();
 
         return sendingDocument!;

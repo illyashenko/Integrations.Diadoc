@@ -15,7 +15,7 @@ public class DiadocSendingDocuments
 
     public Guid RequestId { get; set; }
 
-    public bool? Bill { get; set; }
+    public bool Bill { get; set; }
 }
 
 public class DiadocSendingDocumentsConfiguration : IEntityTypeConfiguration<DiadocSendingDocuments>

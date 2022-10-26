@@ -119,10 +119,10 @@ public class BuildUserData : IBuildUserData
                     Content = documentXml.Content
                 },
                 TypeNamedId = typeNameId?.Name
-                
             };
             
             messageToPost.AddDocumentAttachment(attachment);
+            messageToPost.ToBoxId = dataUtd.BoxToId;
             
             if (dataUtd.Function == Hyphens.UniversalTransferDocumentWithHyphensFunction.СЧФ)
             {
