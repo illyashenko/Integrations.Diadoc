@@ -20,31 +20,34 @@ public class MonitoringStore
     public async Task<IEnumerable<JobModel>> GetJobs(JobFilter filter)
     {
         return await this.Context.Jobs.Where(filter.ToExpression())
-            .Select(j => new JobModel()
+            .Select(j => new JobModel
             {
                 Id = j.Id,
                 OperationId = j.OperationId,
                 Status = j.Status,
                 Data = JsonConvert.DeserializeObject<RequestIdData>(j.Data)
-            }).Take(100).ToListAsync();
+            }).OrderBy(j=>j.Id).Take(100).ToListAsync();
     }
 
     public async Task UpdateJobsStatus(IEnumerable<JobModel> jobs)
     {
-        List<Job> jobsListForUpdate = new();
-
-        foreach (var jobModel in jobs)
+        if (jobs.Any())
         {
-            var jobDb = await this.Context.Jobs.SingleAsync(el=>el.Id == jobModel.Id);
+            var idS = jobs.Select(el=>el.Id).ToArray();
+
+            var jobsDb = await this.Context.Jobs.Where(el => idS.Contains(el.Id)).ToListAsync();
+
+            foreach (var jobModel in jobs)
+            {
+                var jobDb = jobsDb.Single(el=>el.Id == jobModel.Id);
                 
-            jobDb.Status = jobModel.Status;
-            jobDb.ExecuteCode = jobModel.ExecuteCode;
-            jobDb.ExecuteMessage = jobModel.ExecuteMessage;
-            jobDb.ProcessedDate = DateTime.Now;
-                 
-            jobsListForUpdate.Add(jobDb);
+                jobDb.Status = jobModel.Status;
+                jobDb.ExecuteCode = jobModel.ExecuteCode;
+                jobDb.ExecuteMessage = jobModel.ExecuteMessage;
+                jobDb.ProcessedDate = DateTime.Now;
+            }
+            
+            await this.Context.SaveChangesAsync();
         }
-        this.Context.Jobs.UpdateRange(jobsListForUpdate);
-        await this.Context.SaveChangesAsync();
     }
 }

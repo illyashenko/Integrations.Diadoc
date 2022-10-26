@@ -16,6 +16,6 @@ public class CommonSettings
 
     public EmployeeSettings GetDataEmployee(EmployeePosition position)
     {
-        return this.EmployeeSettings?.Single(s => s.Position == position)!;
+        return this.EmployeeSettings!.Single(s => s.Position == position);
     }
 }

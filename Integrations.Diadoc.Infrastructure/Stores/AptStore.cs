@@ -25,16 +25,20 @@ public class AptStore
     public async Task<DataForMessageToPost> GetDataNonformalizedDocument(DocumentTitleFilter filter)
     {
         var dataForMessageToPost = await this.apt.DocumentTitles.Where(filter.ToExpression())
-            .Select(dt => new DataForMessageToPost()
+            .Select(dt => new DataForMessageToPost
             {
-                BoxToId = dt.TitleString!.Contracts!.CrmClientsRef!.OrganizationsBoxId!.BoxId,
+                BoxToId = dt.TitleStrings
+                    .FirstOrDefault(ts => ts.ParameterType == ParameterTypes.AgentReportContract)
+                    .Contracts
+                    .CrmClientsRef
+                    .OrganizationsBoxId.BoxId,
                 AttachmentModel = new NonformalizedAttachmentModel
                 {
                     DocumentNumber = dt.DocumentNumber ?? String.Empty,
                     DocumentDate = dt.DocumentDate
                 }
             }).FirstOrDefaultAsync();
-    
+
         return dataForMessageToPost;
     }
 
@@ -47,18 +51,18 @@ public class AptStore
             from tsAgent in this.apt.TitleStrings.Where(titleString => titleString.DocumentTitleId == dt.TitleString.Contracts.DocumentId
                                                                        && titleString.DocumentTitleOwnerId == dt.TitleString.Contracts.DocumentOwnerId
                                                                        && titleString.ParameterType == ParameterTypes.NewAgentContract)
+            let contract = dt.TitleStrings.FirstOrDefault(el => el.ParameterType == ParameterTypes.NewBillContract).Contracts
             select new DataForUniversalTransferDocument
             {
                 DocumentNumber = dt.DocumentNumber,
-                DocumentDate = dt.TitleStrings.FirstOrDefault(ts => ts.ParameterType == ParameterTypes.NewBillDt).DateTimeValue ?? DateTime.MinValue,
+                DocumentDate = dt.TitleStrings.FirstOrDefault(ts => ts.ParameterType == ParameterTypes.NewBillDt).DateTimeValue ?? DateTime.Now,
                 Upd = new[] { 2, 3 }.Contains(ts.IntValue ?? 0) ? 1 : 0,
-                ClientInnKpp = dt.TitleString.Contracts.ClientsRef.INN,
-                BoxToId = dt.TitleString.Contracts.CrmClientsRef.OrganizationsBoxId.BoxId,
-                ServiceCode = dt.TitleString.Contracts.CrmClientsRef.OrganizationsBoxId.ServiceCode,
-                ContractNumber = dt.TitleString.Contracts.NumberContract,
-                AgentContractNumber = tsAgent.StringValue ?? "",
-                ContractDate = dt.TitleString.Contracts.CrmContractsRef.ContractDate ?? dt
-                    .TitleStrings
+                ClientInnKpp = contract.ClientsRef.INN,
+                BoxToId = contract.CrmClientsRef.OrganizationsBoxId.BoxId,
+                ServiceCode = contract.CrmClientsRef.OrganizationsBoxId.ServiceCode,
+                ContractNumber = contract.NumberContract,
+                AgentContractNumber = tsAgent.StringValue ?? String.Empty,
+                ContractDate = contract.CrmContractsRef.ContractDate ?? dt.TitleStrings
                     .FirstOrDefault(ts => ts.ParameterType == ParameterTypes.ContractAgentContractDate)
                     .DateTimeValue.Value,
                 TableItems = dt.BillSumsCollection.Where(bs => bs.Tariff > 0).Select(bs => new DocumentTableItem
@@ -79,9 +83,9 @@ public class AptStore
                     IntValue1 = dt.TitleStrings.FirstOrDefault(ts => ts.ParameterType == ParameterTypes.NewBillContract).IntValue2 ?? 0
                 })
             };
-    
+
         var dataUpd = await dataQueryUpd.FirstOrDefaultAsync();
-    
+
         if (dataUpd is not null && dataUpd.TableItems!.Any())
         {
             foreach (var item in dataUpd.TableItems!)
@@ -92,10 +96,9 @@ public class AptStore
                     item.Product = CustomIsEmpty(serviceTypeNameContract,
                         CustomIsEmpty(item.TypeNamePrint!, item.TypeName!));
                 }
-    
             }
         }
-    
+
         return dataUpd!;
     }
 
@@ -121,7 +124,7 @@ public class AptStore
             .Where(filter.ToExpression())
             .Select(dt => dt.TitleString!.Contracts!.CrmClientsRef!.OrganizationsBoxId!.BoxId)
             .FirstOrDefaultAsync();
-    
+
         return orgId ?? String.Empty;
     }
 
