@@ -179,7 +179,7 @@ public class BuildUserData : IBuildUserData
 
             var attachment = new NonformalizedAttachment
             {
-                DocumentDate = dataForMessageToPost.AttachmentModel?.DocumentDate.ToString(),
+                DocumentDate = dataForMessageToPost.AttachmentModel?.DocumentDate?.ToString("dd.mm.yyyy"),
                 DocumentNumber = dataForMessageToPost.AttachmentModel?.DocumentNumber,
                 FileName = sendingDocument.FileName,
                 SignedContent = new SignedContent
