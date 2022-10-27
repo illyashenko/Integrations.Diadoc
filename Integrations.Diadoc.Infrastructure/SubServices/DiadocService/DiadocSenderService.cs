@@ -1,6 +1,5 @@
-﻿using Integrations.Diadoc.Domain.Models;
-using Integrations.Diadoc.Domain.Models.Enums;
-using Integrations.Diadoc.Domain.Models.Settings;
+﻿using Integrations.Diadoc.Data.Monitoring.Models;
+using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 using Integrations.Diadoc.Infrastructure.SubServices.Pusher;
 using Microsoft.Extensions.Options;

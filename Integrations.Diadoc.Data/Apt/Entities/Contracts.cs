@@ -16,8 +16,6 @@ namespace Integrations.Diadoc.Data.Apt.Entities
         public CrmClients? CrmClientsRef { get; set; }
         public Clients? ClientsRef { get; set; }
         public CrmContracts? CrmContractsRef { get; set; }
-        
-        public virtual ICollection<TitleString>? TitleStringRef { get; set; }
     }
 
     public class ContractsConfiguration : LegacyTableConfiguration<Contracts>

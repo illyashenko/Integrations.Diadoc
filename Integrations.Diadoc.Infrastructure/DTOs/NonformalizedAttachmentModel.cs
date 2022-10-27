@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Integrations.Diadoc.Domain.DTOs
+﻿namespace Integrations.Diadoc.Infrastructure.DTOs
 {
     public class NonformalizedAttachmentModel
     {

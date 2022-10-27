@@ -1,6 +1,4 @@
-﻿using Integrations.Diadoc.Domain.Models.Enums;
-
-namespace Integrations.Diadoc.Domain.Models.Settings;
+﻿namespace Integrations.Diadoc.Infrastructure.Settings;
 
 public class CommonSettings
 {

@@ -1,4 +1,4 @@
-﻿using Integrations.Diadoc.Domain.Models.Enums;
+﻿using Integrations.Diadoc.Data.Monitoring.Enums;
 
 namespace Integrations.Diadoc.Data.Monitoring.Specifications.Filters;
 

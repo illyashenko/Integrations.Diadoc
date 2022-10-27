@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Integrations.Diadoc.Domain.Models.Enums;
+using Integrations.Diadoc.Data.Apt.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -23,7 +23,6 @@ namespace Integrations.Diadoc.Data.Apt.Entities
         public ParameterTypes? ParameterType { get; set; }
         public DocumentTitle? DocumentTitle { get; set; }
         public Contracts? Contracts { get; set; }
-        public virtual ICollection<Contracts>? ContractsRef { get; set; } 
     }
     public class TitleStringConfiguration : IEntityTypeConfiguration<TitleString> 
     {

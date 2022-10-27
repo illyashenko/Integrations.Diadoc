@@ -7,11 +7,8 @@ namespace Integrations.Diadoc.Data.Apt.Entities
     public class Addresses : LegacyTable
     {
         public string? PostCode { get; set; }
-
         public string? Address { get; set; }
-
         public int CitiesId { get; set; }
-
         public int CitiesOwnerId { get; set; }
     }
 

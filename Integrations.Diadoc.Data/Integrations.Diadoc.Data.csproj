@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Apt\Entities" />
-      <Folder Include="Monitoring\Enums" />
       <Folder Include="Monitoring\Specifications\ForJobs" />
     </ItemGroup>
 
@@ -17,10 +16,6 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.9" />
       <PackageReference Include="PickPoint.Models.Data" Version="1.4.0" />
       <PackageReference Include="SpeciVacation" Version="1.0.2" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Integrations.Diadoc.Domain\Integrations.Diadoc.Domain.csproj" />
     </ItemGroup>
 
 </Project>

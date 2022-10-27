@@ -1,8 +1,8 @@
 ﻿using Data.Models.MonitoringContext;
 using Integrations.Diadoc.Data.Monitoring;
+using Integrations.Diadoc.Data.Monitoring.Models;
 using Integrations.Diadoc.Data.Monitoring.Specifications.Filters;
 using Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs;
-using Integrations.Diadoc.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 

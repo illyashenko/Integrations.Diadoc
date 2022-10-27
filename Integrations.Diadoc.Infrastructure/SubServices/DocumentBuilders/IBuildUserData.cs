@@ -1,5 +1,5 @@
 ﻿using Diadoc.Api.Proto.Events;
-using Integrations.Diadoc.Domain.Models;
+using Integrations.Diadoc.Data.Monitoring.Models;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 

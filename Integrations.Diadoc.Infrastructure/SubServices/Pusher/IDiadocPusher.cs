@@ -1,7 +1,6 @@
 ﻿using Diadoc.Api.Proto.Employees;
 using Diadoc.Api.Proto.Events;
-using Integrations.Diadoc.Domain.Models.Enums;
-using Integrations.Diadoc.Domain.Models.Settings;
+using Integrations.Diadoc.Infrastructure.Settings;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.Pusher;
 

@@ -1,4 +1,4 @@
-﻿namespace Integrations.Diadoc.Domain.Models.Settings;
+﻿namespace Integrations.Diadoc.Infrastructure.Settings;
 
 public class JobSettings
 {

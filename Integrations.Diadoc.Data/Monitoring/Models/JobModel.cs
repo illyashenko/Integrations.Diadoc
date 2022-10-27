@@ -1,6 +1,6 @@
-﻿using Integrations.Diadoc.Domain.Models.Enums;
+﻿using Integrations.Diadoc.Data.Monitoring.Enums;
 
-namespace Integrations.Diadoc.Domain.Models;
+namespace Integrations.Diadoc.Data.Monitoring.Models;
 
 public class JobModel
 {

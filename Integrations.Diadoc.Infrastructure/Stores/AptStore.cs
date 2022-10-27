@@ -1,10 +1,11 @@
 ﻿using Integrations.Diadoc.Data.Apt;
+using Integrations.Diadoc.Data.Apt.Enums;
 using Integrations.Diadoc.Data.Apt.Specifications.Filters;
 using Integrations.Diadoc.Data.Apt.Specifications.ForDocumentTitle;
 using Integrations.Diadoc.Data.Monitoring;
-using Integrations.Diadoc.Domain.DTOs;
-using Integrations.Diadoc.Domain.Models;
-using Integrations.Diadoc.Domain.Models.Enums;
+using Integrations.Diadoc.Data.Monitoring.Models;
+using Integrations.Diadoc.Infrastructure.DTOs;
+using Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 using Microsoft.EntityFrameworkCore;
 using VatRate = Diadoc.Api.DataXml.Utd820.Hyphens.TaxRateWithTwentyPercentAndTaxedByAgent;
 using Parameters = Microsoft.Data.SqlClient.SqlParameter;

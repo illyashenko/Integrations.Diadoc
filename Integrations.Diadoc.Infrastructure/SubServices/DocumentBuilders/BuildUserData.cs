@@ -1,10 +1,8 @@
 ﻿using Diadoc.Api;
 using Diadoc.Api.Proto.Events;
 using Integrations.Diadoc.Data.Apt.Specifications.Filters;
-using Integrations.Diadoc.Domain.DTOs;
-using Integrations.Diadoc.Domain.Models;
-using Integrations.Diadoc.Domain.Models.Enums;
-using Integrations.Diadoc.Domain.Models.Settings;
+using Integrations.Diadoc.Data.Monitoring.Models;
+using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.Stores;
 using Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 using Microsoft.Extensions.Options;

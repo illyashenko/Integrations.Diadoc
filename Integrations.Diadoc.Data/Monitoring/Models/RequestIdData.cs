@@ -1,4 +1,4 @@
-﻿namespace Integrations.Diadoc.Domain.Models;
+﻿namespace Integrations.Diadoc.Data.Monitoring.Models;
 
 public class RequestIdData
 {

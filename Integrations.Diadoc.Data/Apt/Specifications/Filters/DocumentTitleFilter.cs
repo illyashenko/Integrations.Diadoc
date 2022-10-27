@@ -1,4 +1,4 @@
-﻿using Integrations.Diadoc.Domain.Models.Enums;
+﻿using Integrations.Diadoc.Data.Apt.Enums;
 using PickPoint.Models;
 
 namespace Integrations.Diadoc.Data.Apt.Specifications.Filters;

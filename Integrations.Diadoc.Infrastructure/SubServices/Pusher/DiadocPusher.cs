@@ -1,6 +1,6 @@
 ﻿using Diadoc.Api;
 using Diadoc.Api.Proto.Events;
-using Integrations.Diadoc.Domain.Models.Settings;
+using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.Pusher;

@@ -1,5 +1,5 @@
 ﻿using Diadoc.Api;
-using Integrations.Diadoc.Domain.Models.Settings;
+using Integrations.Diadoc.Infrastructure.Settings;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.TokenService;

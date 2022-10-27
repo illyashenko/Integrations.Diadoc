@@ -1,4 +1,4 @@
-﻿using Integrations.Diadoc.Domain.Models.Settings;
+﻿using Integrations.Diadoc.Infrastructure.Settings;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 

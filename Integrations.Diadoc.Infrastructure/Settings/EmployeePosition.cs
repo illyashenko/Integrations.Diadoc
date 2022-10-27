@@ -1,4 +1,4 @@
-﻿namespace Integrations.Diadoc.Domain.Models.Enums;
+﻿namespace Integrations.Diadoc.Infrastructure.Settings;
 
 public enum EmployeePosition
 {

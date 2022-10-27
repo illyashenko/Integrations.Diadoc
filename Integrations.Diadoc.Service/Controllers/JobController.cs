@@ -1,8 +1,7 @@
-﻿using Integrations.Diadoc.Data.Monitoring.Specifications.Filters;
-using Integrations.Diadoc.Domain.Models;
-using Integrations.Diadoc.Domain.Models.Enums;
-using Integrations.Diadoc.Domain.Models.Settings;
+﻿using Integrations.Diadoc.Data.Monitoring.Enums;
+using Integrations.Diadoc.Data.Monitoring.Specifications.Filters;
 using Integrations.Diadoc.Infrastructure;
+using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.Stores;
 using Integrations.Diadoc.Infrastructure.SubServices.DiadocService;
 using MassTransitRMQExtensions.Attributes.JobAttributes;

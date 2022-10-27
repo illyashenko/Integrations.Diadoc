@@ -1,6 +1,6 @@
 ﻿using PickPoint.Models;
 
-namespace Integrations.Diadoc.Domain.DTOs
+namespace Integrations.Diadoc.Data.Monitoring.Models
 {
     public class SendingDocument
     {

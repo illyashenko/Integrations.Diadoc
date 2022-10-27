@@ -1,4 +1,4 @@
-﻿namespace Integrations.Diadoc.Domain.Models.Enums;
+﻿namespace Integrations.Diadoc.Data.Monitoring.Enums;
 
 public enum OperationId
 {

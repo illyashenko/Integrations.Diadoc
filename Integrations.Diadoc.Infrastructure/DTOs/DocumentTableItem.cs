@@ -1,6 +1,6 @@
 ﻿using VatRate =  Diadoc.Api.DataXml.Utd820.Hyphens.TaxRateWithTwentyPercentAndTaxedByAgent;
 
-namespace Integrations.Diadoc.Domain.DTOs
+namespace Integrations.Diadoc.Infrastructure.DTOs
 {
     public class DocumentTableItem
     {

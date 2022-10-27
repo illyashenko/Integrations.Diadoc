@@ -1,4 +1,4 @@
-﻿using Integrations.Diadoc.Domain.Models.Enums;
+﻿using Integrations.Diadoc.Data.Monitoring.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

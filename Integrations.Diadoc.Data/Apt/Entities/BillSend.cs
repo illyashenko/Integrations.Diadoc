@@ -7,9 +7,7 @@ namespace Integrations.Diadoc.Data.Apt.Entities
     public class BillSend : LegacyTable
     {
         public int BillId { get; set; }
-        
         public int BillOwnerId { get; set; }
-        
         public int? FileExt { get; set; } 
     }
     public class BillSendConfiguration : LegacyTableConfiguration<BillSend>

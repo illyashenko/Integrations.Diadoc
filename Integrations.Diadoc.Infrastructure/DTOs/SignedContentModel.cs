@@ -1,4 +1,4 @@
-﻿namespace Integrations.Diadoc.Domain.DTOs
+﻿namespace Integrations.Diadoc.Infrastructure.DTOs
 {
     public class SignedContentModel 
     {

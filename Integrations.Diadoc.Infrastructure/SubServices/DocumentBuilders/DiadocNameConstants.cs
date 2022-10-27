@@ -1,6 +1,6 @@
 ﻿using Function = Diadoc.Api.DataXml.Utd820.Hyphens.UniversalTransferDocumentWithHyphensFunction;
 
-namespace Integrations.Diadoc.Domain.Models;
+namespace Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 
 public class DiadocNameConstants
 {

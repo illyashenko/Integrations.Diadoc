@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
 using Data.Models.MonitoringContext;
-using Integrations.Diadoc.Domain.Models.Enums;
 using SpeciVacation;
 
 namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs

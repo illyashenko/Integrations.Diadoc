@@ -2,7 +2,7 @@ using Diadoc.Api;
 using Diadoc.Api.Cryptography;
 using Integrations.Diadoc.Data.Apt;
 using Integrations.Diadoc.Data.Monitoring;
-using Integrations.Diadoc.Domain.Models.Settings;
+using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.Stores;
 using Integrations.Diadoc.Infrastructure.SubServices.DiadocService;
 using Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
@@ -13,6 +13,8 @@ using MassTransitRMQExtensions;
 using MassTransitRMQExtensions.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using NLog.Extensions.Logging;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +27,13 @@ var mqConfig = new RabbitMqConfig(rabbitConfig["UserName"], rabbitConfig["Passwo
 builder.Services.ConfigureMassTransitControllers(mqConfig);
 
 var diadocSettings = builder.Configuration.GetSection("ApiSettings");
-builder.Services.AddSingleton<IDiadocApi>(sd => new DiadocApi(
-    diadocSettings["ClientId"],
-    diadocSettings["ApiUrl"],
-    new WinApiCrypt()));
+builder.Services.AddSingleton<IDiadocApi>(sd =>
+    new DiadocApi
+    (
+        diadocSettings["ClientId"],
+        diadocSettings["ApiUrl"],
+        new WinApiCrypt()
+    ));
 
 builder.Services.AddDbContext<MonitoringContext>(context => context.UseSqlServer(builder.Configuration.GetConnectionString("Monitoring")));
 builder.Services.AddDbContext<AptContext>(context => context.UseSqlServer(builder.Configuration.GetConnectionString("Apt")));
@@ -45,6 +50,9 @@ builder.Services.AddTransient<DiadocSenderService>();
 builder.Services.AddTransient<DiadocExecutor>();
 builder.Services.AddTransient<IDiadocPusher, DiadocPusher>();
 builder.Services.AddTransient<IBuildUserData, BuildUserData>();
+
+builder.Logging.ClearProviders();
+builder.Logging.AddNLogWeb(new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog")));
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Integrations.Diadoc.Data.Apt.Entities;
-using Integrations.Diadoc.Domain.Models.Enums;
+using Integrations.Diadoc.Data.Apt.Enums;
 using SpeciVacation;
 
 namespace Integrations.Diadoc.Data.Apt.Specifications.ForDocumentTitle

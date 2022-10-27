@@ -1,8 +1,7 @@
 ﻿using Hyphens =  Diadoc.Api.DataXml.Utd820.Hyphens;
 using Diadoc.Api.DataXml;
-using Integrations.Diadoc.Domain.DTOs;
-using Integrations.Diadoc.Domain.Models;
-using Integrations.Diadoc.Domain.Models.Settings;
+using Integrations.Diadoc.Infrastructure.DTOs;
+using Integrations.Diadoc.Infrastructure.Settings;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 
