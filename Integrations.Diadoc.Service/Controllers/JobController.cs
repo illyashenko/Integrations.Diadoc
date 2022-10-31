@@ -23,7 +23,7 @@ public class JobController
         this._settings = options.Value;
     }
 
-    [RunJob("1/30 * * * * ?")]
+    [RunJob("0 1/5 * * * ?")]
     public async Task ProcessJobs()
     {
         var filter = new JobFilter
