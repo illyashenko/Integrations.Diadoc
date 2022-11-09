@@ -52,13 +52,6 @@ public class BuildUserData : IBuildUserData
             return messageToPost;
         }
 
-        public async Task BuildTest(RequestIdData requestIdData)
-        {
-            var sendingDocument = await AptStore.GetDataForSendingDocument(requestIdData);
-
-            var doc = await AptStore.GetDataForMessagePost(DocumentTitleFilter.GetFilterDocumentReport(sendingDocument.Key));
-        }
-
         private async Task BuildUserDataUniversalDocument(SendingDocument sendingData, MessageToPost messageToPost)
         {
             var documentDescription =

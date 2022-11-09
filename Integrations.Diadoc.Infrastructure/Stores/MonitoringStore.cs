@@ -26,7 +26,8 @@ public class MonitoringStore
                 OperationId = j.OperationId,
                 Status = j.Status,
                 Data = JsonConvert.DeserializeObject<RequestIdData>(j.Data)
-            }).OrderBy(j=>j.Id).Take(100).ToListAsync();
+            })
+            .OrderBy(j=>j.Id).Take(100).ToListAsync();
     }
 
     public async Task UpdateJobsStatus(IEnumerable<JobModel> jobs)
