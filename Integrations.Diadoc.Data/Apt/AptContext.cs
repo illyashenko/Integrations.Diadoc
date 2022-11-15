@@ -22,6 +22,7 @@ public class AptContext : AptContext<AptContext>
     public DbSet<Addresses> Addresses { get; set; }
     public DbSet<ServiceType> ServiceTypes { get; set; }
     public DbSet<ScalarString> ScalarStrings { get; set; }
+    public DbSet<ExternalExchangeDocuments> ExternalExchangeDocuments { get; set; }
 
     public AptContext(DbContextOptions<AptContext> context) : base(context)
     {
@@ -45,6 +46,7 @@ public class AptContext : AptContext<AptContext>
         modelBuilder.ApplyConfiguration(new RegionsCodeConfiguration());
         modelBuilder.ApplyConfiguration(new AddressesConfiguration());
         modelBuilder.ApplyConfiguration(new ServiceTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ExternalExchangeDocumentsConfiguration());
 
         modelBuilder.Entity<ScalarString>().HasNoKey();
         modelBuilder.HasDbFunction(() => fn_bc_GetServiceTypeNameContract(default, default, default, default));

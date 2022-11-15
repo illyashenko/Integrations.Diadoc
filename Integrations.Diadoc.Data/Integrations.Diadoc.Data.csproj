@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Apt\Entities" />
       <Folder Include="Monitoring\Specifications\ForJobs" />
     </ItemGroup>
 

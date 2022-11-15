@@ -1,7 +1,7 @@
 ﻿using Integrations.Diadoc.Data.Monitoring.Models;
 using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
-using Integrations.Diadoc.Infrastructure.SubServices.Pusher;
+using Integrations.Diadoc.Infrastructure.SubServices.Pushers;
 using Microsoft.Extensions.Options;
 
 namespace Integrations.Diadoc.Infrastructure.SubServices.DiadocService;

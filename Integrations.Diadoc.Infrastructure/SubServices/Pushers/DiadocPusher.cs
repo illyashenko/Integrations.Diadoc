@@ -3,7 +3,7 @@ using Diadoc.Api.Proto.Events;
 using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 
-namespace Integrations.Diadoc.Infrastructure.SubServices.Pusher;
+namespace Integrations.Diadoc.Infrastructure.SubServices.Pushers;
 
 public class DiadocPusher : IDiadocPusher
 {

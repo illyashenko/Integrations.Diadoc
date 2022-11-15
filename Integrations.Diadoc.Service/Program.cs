@@ -6,7 +6,8 @@ using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.Stores;
 using Integrations.Diadoc.Infrastructure.SubServices.DiadocService;
 using Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
-using Integrations.Diadoc.Infrastructure.SubServices.Pusher;
+using Integrations.Diadoc.Infrastructure.SubServices.ExternalExchangeDocumentsService;
+using Integrations.Diadoc.Infrastructure.SubServices.Pushers;
 using Integrations.Diadoc.Infrastructure.SubServices.TokenService;
 using Integrations.Diadoc.Service.Configurations.Consul;
 using MassTransitRMQExtensions;
@@ -50,6 +51,7 @@ builder.Services.AddTransient<DiadocSenderService>();
 builder.Services.AddTransient<DiadocExecutor>();
 builder.Services.AddTransient<IDiadocPusher, DiadocPusher>();
 builder.Services.AddTransient<IBuildUserData, BuildUserData>();
+builder.Services.AddTransient<ExternalExchangeDocumentsService>();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddNLogWeb(new NLogLoggingConfiguration(builder.Configuration.GetSection("NLog")));

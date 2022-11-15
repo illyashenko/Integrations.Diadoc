@@ -19,4 +19,5 @@ RUN dotnet publish "Integrations.Diadoc.Service.csproj" -c Release -o /app/publi
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+RUN ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 ENTRYPOINT ["dotnet", "Integrations.Diadoc.Service.dll"]

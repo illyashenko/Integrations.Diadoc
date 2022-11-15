@@ -1,4 +1,5 @@
 ﻿using Integrations.Diadoc.Data.Apt;
+using Integrations.Diadoc.Data.Apt.Entities;
 using Integrations.Diadoc.Data.Apt.Enums;
 using Integrations.Diadoc.Data.Apt.Specifications.Filters;
 using Integrations.Diadoc.Data.Apt.Specifications.ForDocumentTitle;
@@ -127,6 +128,28 @@ public class AptStore
             .FirstOrDefaultAsync();
 
         return orgId ?? String.Empty;
+    }
+
+    public async Task UpdateExternalExchangeDocuments(IEnumerable<JobModel> jobs)
+    {
+        var ids = jobs.Select(j => j.Id).ToArray();
+        
+        var externalExchangeDocuments = await this.apt.ExternalExchangeDocuments.Where(ex => ids.Contains(ex.Id)).ToListAsync();
+
+        if (externalExchangeDocuments.Any())
+        {
+            foreach (var job in jobs)
+            {
+                var externalExchangeDocument = externalExchangeDocuments.Single(ex => ex.Id == job.Id);
+                
+                externalExchangeDocument.Status = (int)job.Status;
+                externalExchangeDocument.ProcessedOn = DateTime.Now;
+                externalExchangeDocument.ProcessedBy = "Integration.Diadoc";
+                externalExchangeDocument.JobData = job.ExecuteMessage;
+            }
+
+            await this.apt.SaveChangesAsync();
+        }
     }
 
     private string CustomIsEmpty(string check, string replace)

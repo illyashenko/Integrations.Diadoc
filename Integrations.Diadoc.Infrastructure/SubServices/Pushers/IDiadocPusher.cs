@@ -1,8 +1,7 @@
-﻿using Diadoc.Api.Proto.Employees;
-using Diadoc.Api.Proto.Events;
+﻿using Diadoc.Api.Proto.Events;
 using Integrations.Diadoc.Infrastructure.Settings;
 
-namespace Integrations.Diadoc.Infrastructure.SubServices.Pusher;
+namespace Integrations.Diadoc.Infrastructure.SubServices.Pushers;
 
 public interface IDiadocPusher
 {

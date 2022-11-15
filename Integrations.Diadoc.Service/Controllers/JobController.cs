@@ -4,6 +4,7 @@ using Integrations.Diadoc.Infrastructure;
 using Integrations.Diadoc.Infrastructure.Settings;
 using Integrations.Diadoc.Infrastructure.Stores;
 using Integrations.Diadoc.Infrastructure.SubServices.DiadocService;
+using Integrations.Diadoc.Infrastructure.SubServices.ExternalExchangeDocumentsService;
 using MassTransitRMQExtensions.Attributes.JobAttributes;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -14,13 +15,18 @@ public class JobController
 {
     private readonly MonitoringStore _store;
     private readonly DiadocExecutor _executor;
-    private JobSettings _settings;
+    private readonly JobSettings _settings;
+    private readonly ExternalExchangeDocumentsService _externalExchangeDocumentsService;
 
-        public JobController(MonitoringStore monitoringStore, DiadocExecutor executor, IOptions<JobSettings> options)
+    public JobController(MonitoringStore monitoringStore
+        , DiadocExecutor executor
+        , IOptions<JobSettings> options
+        , ExternalExchangeDocumentsService externalExchangeDocumentsService)
     {
         this._store = monitoringStore;
         this._executor = executor;
         this._settings = options.Value;
+        this._externalExchangeDocumentsService = externalExchangeDocumentsService;
     }
 
     [RunJob("1/30 * * * * ?")]
@@ -52,6 +58,7 @@ public class JobController
                 }
             }
             await this._store.UpdateJobsStatus(jobs);
+            await this._externalExchangeDocumentsService.UpdateExternalExchangeDocuments(jobs);
         }
     }
 }

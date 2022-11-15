@@ -15,10 +15,7 @@
       "launchUrl": "about",
       "applicationUrl": "https://localhost:7063;http://localhost:5063",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Staging",
-        "CONSUL_KEY": "appsettings/Staging/Diadoc/config",
-        "CONSUL_HOST": "http://consul.service.consul.lcl:8500/",
-        "CONSUL_TOKEN": "87ca0fe7-0b22-7c5c-0ce4-8f059f89ed94"
+        "ASPNETCORE_ENVIRONMENT": "Staging"
       }
     },
     "Integrations.Diadoc.Service": {
