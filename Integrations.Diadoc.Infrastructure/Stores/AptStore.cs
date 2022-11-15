@@ -1,5 +1,4 @@
 ﻿using Integrations.Diadoc.Data.Apt;
-using Integrations.Diadoc.Data.Apt.Entities;
 using Integrations.Diadoc.Data.Apt.Enums;
 using Integrations.Diadoc.Data.Apt.Specifications.Filters;
 using Integrations.Diadoc.Data.Apt.Specifications.ForDocumentTitle;
@@ -134,7 +133,7 @@ public class AptStore
     {
         var ids = jobs.Select(j => j.Id).ToArray();
         
-        var externalExchangeDocuments = await this.apt.ExternalExchangeDocuments.Where(ex => ids.Contains(ex.Id)).ToListAsync();
+        var externalExchangeDocuments = await this.apt.ExternalExchangeDocuments.Where(ex => ids.Contains(ex.JobId ?? 0)).ToListAsync();
 
         if (externalExchangeDocuments.Any())
         {
