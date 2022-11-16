@@ -29,7 +29,7 @@ public class JobController
         this._externalExchangeDocumentsService = externalExchangeDocumentsService;
     }
 
-    [RunJob("1/30 * * * * ?")]
+    [RunJob("0 1/10 * * * ?")]
     public async Task ProcessJobs()
     {
         var filter = new JobFilter

@@ -133,13 +133,13 @@ public class AptStore
     {
         var ids = jobs.Select(j => j.Id).ToArray();
         
-        var externalExchangeDocuments = await this.apt.ExternalExchangeDocuments.Where(ex => ids.Contains(ex.JobId ?? 0)).ToListAsync();
+        var externalExchangeDocuments = await this.apt.ExternalExchangeDocuments.Where(ex => ids.Contains(ex.JobId.Value)).ToListAsync();
 
         if (externalExchangeDocuments.Any())
         {
             foreach (var job in jobs)
             {
-                var externalExchangeDocument = externalExchangeDocuments.Single(ex => ex.Id == job.Id);
+                var externalExchangeDocument = externalExchangeDocuments.Single(ex => ex.JobId == job.Id);
                 
                 externalExchangeDocument.Status = (int)job.Status;
                 externalExchangeDocument.ProcessedOn = DateTime.Now;
