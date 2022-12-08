@@ -61,7 +61,7 @@ public class AptStore
                 ClientInnKpp = contract.ClientsRef.INN,
                 BoxToId = contract.CrmClientsRef.OrganizationsBoxId.BoxId,
                 ServiceCode = contract.CrmClientsRef.OrganizationsBoxId.ServiceCode,
-                ContractNumber = contract.NumberContract,
+                ContractNumber = string.IsNullOrEmpty(contract.DogovorNumber) ? contract.NumberContract : contract.DogovorNumber,
                 AgentContractNumber = tsAgent.StringValue ?? String.Empty,
                 ContractDate = contract.CrmContractsRef.ContractDate ?? dt.TitleStrings
                     .FirstOrDefault(ts => ts.ParameterType == ParameterTypes.ContractAgentContractDate)
