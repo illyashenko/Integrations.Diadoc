@@ -66,6 +66,11 @@ public class BuildUserData : IBuildUserData
                 throw new Exception("поле BoxId не соответствует, или пустое!");
             }
 
+            if (!dataUtd.ValidateInnKpp())
+            {
+                throw new Exception("поле ИНН/КПП не соответствует или пустое");
+            }
+
             var typeNameId = documentDescription.DocumentTypes.Find(dt => dt.Title == DiadocNameConstants.GetTitle(dataUtd.Upd));
             var documentFunction = typeNameId?.Functions
                 .Find(f => f.Name == (dataUtd.Function == Hyphens.UniversalTransferDocumentWithHyphensFunction.СЧФ 

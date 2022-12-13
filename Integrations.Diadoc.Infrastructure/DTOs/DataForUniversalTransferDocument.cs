@@ -1,4 +1,5 @@
-﻿using OrganizationType =  Diadoc.Api.DataXml.OrganizationType;
+﻿using System.Text.RegularExpressions;
+using OrganizationType =  Diadoc.Api.DataXml.OrganizationType;
 using FunctionType = Diadoc.Api.DataXml.Utd820.Hyphens.UniversalTransferDocumentWithHyphensFunction;
 
 namespace Integrations.Diadoc.Infrastructure.DTOs
@@ -34,7 +35,7 @@ namespace Integrations.Diadoc.Infrastructure.DTOs
                         this.ClientInn = _innKpp;
                         this.OrganizationType = OrganizationType.IndividualEntity;
                     }
-                    else
+                    else if (Regex.IsMatch(_innKpp, @"([0-9]{10})/([0-9]{9})")) 
                     {
                         this.ClientInn = this._innKpp.Substring(0, 10);
                         this.ClientKpp = this._innKpp.Substring(11);
@@ -65,6 +66,26 @@ namespace Integrations.Diadoc.Infrastructure.DTOs
         public bool ValidateBoxId()
         {
             return !String.IsNullOrEmpty(this.BoxToId);
+        }
+        
+         public bool ValidateInnKpp()
+        {
+            if (string.IsNullOrEmpty(this.ClientInn))
+            {
+                return false;
+            }
+            
+            if (this.ClientInn.Length == 12)
+            {
+                return true;
+            }
+
+            if (this.ClientInn.Length == 10 && this.ClientKpp.Length == 9)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private string? _innKpp;
