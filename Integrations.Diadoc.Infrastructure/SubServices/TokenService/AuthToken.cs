@@ -17,7 +17,7 @@ public class AuthToken : IAuthToken
 
     public async Task<string> GetAccessToken(EmployeeSettings employee)
     {
-        var token = await Cache.GetOrCreateAsync(employee.Login, async entry =>
+        var token = await Cache.GetOrCreateAsync($"{employee.Login}-{employee.Password}", async entry =>
         {
             var responseToken = await this.Api.AuthenticateAsync(employee.Login, employee.Password);
             entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(6);
