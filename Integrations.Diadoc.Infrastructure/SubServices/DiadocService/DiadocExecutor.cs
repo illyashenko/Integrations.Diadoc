@@ -4,16 +4,16 @@ namespace Integrations.Diadoc.Infrastructure.SubServices.DiadocService;
 
 public class DiadocExecutor
 {
-    private readonly DiadocSenderService _diadocSenderService;
+    private readonly DiadocService _diadocService;
     
-    public DiadocExecutor(DiadocSenderService senderService)
+    public DiadocExecutor(DiadocService service)
     {
-        this._diadocSenderService = senderService;
+        this._diadocService = service;
     }
     public async Task ExecuteAsync(OperationId type, params object[] jobParams)
     {
-        var typeController = typeof(DiadocSenderService);
+        var typeController = typeof(DiadocService);
         var methodInfo = typeController.GetMethod(type.ToString());
-        await (Task)methodInfo?.Invoke(_diadocSenderService, jobParams)!;
+        await (Task)methodInfo?.Invoke(_diadocService, jobParams)!;
     }
 }

@@ -2,6 +2,8 @@
 
 public class CommonSettings
 {
+    public Organizations Organization { get; set; }
+    public string? OrgId { get; set; }
     public string? FromBoxId { get; set; }
     public string? Inn { get; set; }
     public string? Kpp { get; set; }

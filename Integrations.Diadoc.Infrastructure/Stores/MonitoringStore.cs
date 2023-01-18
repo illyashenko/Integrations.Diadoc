@@ -51,4 +51,19 @@ public class MonitoringStore
             await this.Context.SaveChangesAsync();
         }
     }
+    public async Task AddJobAsync(JobCandidate job)
+    {
+        var newJob = new Job()
+        {
+            OperationId = job.OperationId,
+            Status = job.Status,
+            Data = job.Data,
+            ServerId = job.ServerId,
+            CreateDate = job.CreateDate,
+            StartDate = job.StartDate
+        };
+
+        await this.Context.Jobs.AddAsync(newJob);
+        await this.Context.SaveChangesAsync();
+    }
 }

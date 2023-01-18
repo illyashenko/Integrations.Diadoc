@@ -17,7 +17,7 @@ namespace Integrations.Diadoc.Infrastructure.DTOs
         public string? ClientOrganizationName { get; set; }
         public string ClientInn { get; init; } = string.Empty;
         public string ClientKpp { get; init; } = string.Empty;
-        public bool ServiceCode { get; set; } = false;
+        public bool? ServiceCode { get; set; } = false;
         public OrganizationType OrganizationType { get; set; }
         public string? BoxToId { get; set; }
 

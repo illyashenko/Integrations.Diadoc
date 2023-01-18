@@ -68,7 +68,7 @@ public class BuilderHelper
                 new Hyphens.TransferBase820()
                 {
                     BaseDocumentName = DiadocNameConstants.BaseDocumentName,
-                    BaseDocumentNumber = (dataForUtd.ServiceCode && AgentContractZara(dataForUtd.TableItems)) ? dataForUtd.AgentContractNumber : dataForUtd.ContractNumber,
+                    BaseDocumentNumber = (dataForUtd.ServiceCode.Value && AgentContractZara(dataForUtd.TableItems)) ? dataForUtd.AgentContractNumber : dataForUtd.ContractNumber,
                     BaseDocumentDate = dataForUtd.ContractDate.ToString("dd.MM.yyyy")
                 }
             };
@@ -104,17 +104,17 @@ public class BuilderHelper
 
         public static Hyphens.InvoiceTable GetInvoiceTable(DataForUniversalTransferDocument dataForUtd)
         {
-            return new Hyphens.InvoiceTable()
-            {
-                VatSpecified = true,
-                TotalSpecified = true,
-                TotalWithVatExcludedSpecified = true,
-                Vat = dataForUtd.TableItems.Sum(el => el.Nds),
-                Total = dataForUtd.TableItems.Sum(el => el.Total),
-                TotalWithVatExcluded = dataForUtd.TableItems.Sum(el => el.Tariff),
-                WithoutVat = dataForUtd.TableItems.Sum(el => el.Nds) != 0 ? Hyphens.InvoiceTableWithoutVat.False : Hyphens.InvoiceTableWithoutVat.True,
-                Item = ListItems(dataForUtd).ToArray()
-            };
+            return new Hyphens.InvoiceTable
+                {
+                    VatSpecified = true,
+                    TotalSpecified = true,
+                    TotalWithVatExcludedSpecified = true,
+                    Vat = dataForUtd.TableItems!.Sum(el => el.Nds),
+                    Total = dataForUtd.TableItems!.Sum(el => el.Total),
+                    TotalWithVatExcluded = dataForUtd.TableItems!.Sum(el => el.Tariff),
+                    WithoutVat = dataForUtd.TableItems!.Sum(el => el.Nds) != 0 ? Hyphens.InvoiceTableWithoutVat.False : Hyphens.InvoiceTableWithoutVat.True,
+                    Item = ListItems(dataForUtd).ToArray()
+                };
         }
         
         private static List<Hyphens.InvoiceTableItem> ListItems(DataForUniversalTransferDocument dataUtd)
@@ -135,7 +135,7 @@ public class BuilderHelper
                     Subtotal = tableItem.Total,
                     SubtotalSpecified = true,
                     Product = tableItem.Product,
-                    AdditionalInfos = dataUtd.ServiceCode
+                    AdditionalInfos = dataUtd.ServiceCode.Value
                         ? new[]
                         {
                             new Hyphens.AdditionalInfo
@@ -154,13 +154,17 @@ public class BuilderHelper
         
         private static string updateDocumentName(DataForUniversalTransferDocument document)
         {
-            var rowsNumber = document.TableItems.Count();
+            if (document.TableItems != null)
+            {
+                var rowsNumber = document.TableItems.Count();
 
-            if (rowsNumber == 0)
-                return String.Empty;
+                if (rowsNumber == 0)
+                    return String.Empty;
 
-            var name = String.Concat(" п/п ", rowsNumber != 1 ? String.Concat("1-", rowsNumber) : rowsNumber.ToString());
-            return name;
+                var name = String.Concat(" п/п ", rowsNumber != 1 ? String.Concat("1-", rowsNumber) : rowsNumber.ToString());
+                return name;
+            }
+            return string.Empty;
         }
 
        // F@ for ZARA
@@ -168,7 +172,7 @@ public class BuilderHelper
        {
            if (utdTableItems.Count() == 1)
            {
-               var isAvailable = utdTableItems.Any(it => it.Product.Contains(DiadocNameConstants.AgencyFee));
+               var isAvailable = utdTableItems.Any(it => it.Product != null && it.Product.Contains(DiadocNameConstants.AgencyFee));
 
                if (isAvailable)
                {

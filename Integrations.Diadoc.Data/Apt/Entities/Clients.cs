@@ -13,6 +13,7 @@ namespace Integrations.Diadoc.Data.Apt.Entities
         public int JurAddressId { get; set; }
         public int JurAddressOwnerId { get; set; }
         public Contracts? Contracts { get; set; }
+        public CrmClients? CrmClients { get; set; }
     }
 
     public class ClientsConfiguration : LegacyTableConfiguration<Clients>
@@ -28,6 +29,12 @@ namespace Integrations.Diadoc.Data.Apt.Entities
             builder.Property(p => p.PhisAddressOwnerId).HasColumnName("Phis_Address_Owner_id");
             builder.Property(p => p.JurAddressId).HasColumnName("Jur_Address_id");
             builder.Property(p => p.JurAddressOwnerId).HasColumnName("Jur_Address_Owner_id");
+
+            builder.HasOne(crm => crm.CrmClients)
+                .WithOne(cl => cl.Clients)
+                .HasPrincipalKey<CrmClients>(crm => new { crm.ClientId, crm.ClientOwnerId })
+                .HasForeignKey<Clients>(cl => new { cl.Id, cl.OwnerId });
+
         }
     }
 }

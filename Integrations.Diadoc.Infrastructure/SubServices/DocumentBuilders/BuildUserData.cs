@@ -1,4 +1,5 @@
 ﻿using Diadoc.Api;
+using Diadoc.Api.Proto;
 using Diadoc.Api.Proto.Events;
 using Integrations.Diadoc.Data.Apt.Specifications.Filters;
 using Integrations.Diadoc.Data.Monitoring.Models;
@@ -14,34 +15,38 @@ namespace Integrations.Diadoc.Infrastructure.SubServices.DocumentBuilders;
 
 public class BuildUserData : IBuildUserData
 {
-        private CommonSettings Settings { get; }
+        private DiadocSettings Settings { get; }
 
-        private IDiadocApi Api { get; set; }
+        private IDiadocApi Api { get; }
 
-        private AptStore AptStore { get; set; }
+        private DiadocStore DiadocStore { get; }
         
-        private IAuthToken AuthToken { get; set; }
+        private IAuthToken AuthToken { get; }
         
-        private EmployeeSettings EmployeeSettings { get; }
+        private EmployeeSettings EmployeeSettings { get; set; }
+        
+        private CommonSettings CommonSettings { get; set; }
 
-        public BuildUserData(IOptions<CommonSettings> settings
+        public BuildUserData(IOptions<DiadocSettings> settings
             , IDiadocApi api
-            , AptStore aptStore
+            , DiadocStore diadocStore
             , IAuthToken authToken)
         {
             this.Settings = settings.Value;
             this.Api = api;
-            this.AptStore = aptStore;
+            this.DiadocStore = diadocStore;
             this.AuthToken = authToken;
-            this.EmployeeSettings = this.Settings.EmployeeSettings?.First(el=>el.Position == EmployeePosition.AccountManager)!;
         }
 
-        public async Task<MessageToPost> BuildMessageToPost(RequestIdData data)
+        public async Task<(MessageToPost, EmployeeSettings)> BuildMessageToPost(RequestIdData data)
         {
             var messageToPost = new MessageToPost();
-            var sendingDocument = await AptStore.GetDataForSendingDocument(data);
+            var sendingDocument = await DiadocStore.GetDataForSendingDocument(data);
+
+            this.CommonSettings = Settings.CommonSettings!.First(el => (int)el.Organization == sendingDocument.Organization);
+            this.EmployeeSettings = CommonSettings.EmployeeSettings?.First(el=>el.Position == EmployeePosition.AccountManager)!;
             
-            messageToPost.FromBoxId = Settings.FromBoxId;
+            messageToPost.FromBoxId = CommonSettings.FromBoxId;
             await AddNonformalizedDocument(sendingDocument, messageToPost);
 
             if (sendingDocument.Bill)
@@ -49,17 +54,35 @@ public class BuildUserData : IBuildUserData
                 await BuildUserDataUniversalDocument(sendingDocument, messageToPost);
             }
             
-            return messageToPost;
+            return (messageToPost, this.EmployeeSettings);
         }
+        
+        public async Task<(AcquireCounteragentRequest acquireCounteragentRequest, EmployeeSettings EmployeeSettings, string? OrgId)> BuildAcquireCounteragentRequest(RequestIdData requestId)
+        {
+            var data = await DiadocStore.GetDataForAcquireCounteragent(requestId);
+            
+            this.CommonSettings = Settings.CommonSettings!.First(el => (int)el.Organization == data?.Organization);
+            this.EmployeeSettings = CommonSettings.EmployeeSettings?.First(el=>el.Position == EmployeePosition.AccountManager)!;
 
+            var acquireCounteragentRequest = new AcquireCounteragentRequest()
+            {
+                OrgId = data?.OrgId,
+                Inn = data?.Inn,
+                MessageToCounteragent = data?.MessageToCouneragent
+            };
+            
+            return (acquireCounteragentRequest, this.EmployeeSettings, CommonSettings.OrgId);
+        }
+        
+  #region PRIVATE
         private async Task BuildUserDataUniversalDocument(SendingDocument sendingData, MessageToPost messageToPost)
         {
             var documentDescription =
                 await Api.GetDocumentTypesV2Async(await AuthToken.GetAccessToken(this.EmployeeSettings),
-                    Settings.FromBoxId);
+                    CommonSettings.FromBoxId);
 
             var dataUtd =
-                await AptStore.GetDataForMessagePost(DocumentTitleFilter.GetFilterDocumentReport(sendingData.Key));
+                await DiadocStore.GetDataForMessagePost(DocumentTitleFilter.GetFilterDocumentReport(sendingData.Key));
 
             if (!dataUtd.ValidateBoxId())
             {
@@ -81,18 +104,18 @@ public class BuildUserData : IBuildUserData
             
             var documentToXml = new Hyphens.UniversalTransferDocumentWithHyphens
             {
-                Sellers = BuilderHelper.GetSellers(Settings.FromBoxId ?? String.Empty),
-                Signers = BuilderHelper.GetSigners(Settings.FromBoxId?? String.Empty, Settings.CertificateThumbprint ?? String.Empty),
+                Sellers = BuilderHelper.GetSellers(CommonSettings.FromBoxId ?? String.Empty),
+                Signers = BuilderHelper.GetSigners(CommonSettings.FromBoxId?? String.Empty, CommonSettings.CertificateThumbprint ?? String.Empty),
                 Shippers = BuilderHelper.GetShippers(),
                 Buyers = BuilderHelper.GetBayer(dataUtd),
                 TransferInfo = new Hyphens.TransferInfo
                 {
                     OperationInfo = DiadocNameConstants.OperationInfo,
-                    Employee = BuilderHelper.GetEmployee(Settings.GetDataEmployee(EmployeePosition.GeneralManager)),
+                    Employee = BuilderHelper.GetEmployee(CommonSettings.GetDataEmployee(EmployeePosition.GeneralManager)),
                     TransferBases = BuilderHelper.GetTransferBases(dataUtd)
                 },
                 DocumentShipments = BuilderHelper.GetShipments(dataUtd),
-                DocumentCreator = $"{Settings.OrganizationName} ИНН/КПП {Settings.Inn}/{Settings.Kpp}",
+                DocumentCreator = $"{CommonSettings.OrganizationName} ИНН/КПП {CommonSettings.Inn}/{CommonSettings.Kpp}",
                 DocumentDate =dataUtd.DocumentDate.ToString("dd.MM.yyyy"),
                 DocumentName = DiadocNameConstants.GetDocumentName(dataUtd.Function),
                 DocumentNumber = dataUtd.DocumentNumber,
@@ -104,7 +127,7 @@ public class BuildUserData : IBuildUserData
             var contract = documentToXml.SerializeToXml();
 
             var documentXml = await Api.GenerateTitleXmlAsync(await AuthToken.GetAccessToken(this.EmployeeSettings),
-                Settings.FromBoxId, typeNameId?.Name,
+                CommonSettings.FromBoxId, typeNameId?.Name,
                 documentFunction?.Name, documentVersion?.Version,
                 indexTitle, contract);
 
@@ -125,7 +148,7 @@ public class BuildUserData : IBuildUserData
                 documentToXml.Function = Hyphens.UniversalTransferDocumentWithHyphensFunction.ДОП;
                 var contractForAct = documentToXml.SerializeToXml();
                 var documentXmlForAct = await Api.GenerateTitleXmlAsync(await AuthToken.GetAccessToken(this.EmployeeSettings)
-                    , Settings.FromBoxId, DiadocNameConstants.TypeNameId, DiadocNameConstants.DefaultName
+                    , CommonSettings.FromBoxId, DiadocNameConstants.TypeNameId, DiadocNameConstants.DefaultName
                     , documentVersion?.Version, indexTitle, contractForAct);
 
                 var attachmentAct = new DocumentAttachment
@@ -170,7 +193,7 @@ public class BuildUserData : IBuildUserData
         private async Task AddNonformalizedDocument(SendingDocument sendingDocument, MessageToPost messageToPost)
         {
             var dataForMessageToPost =
-                await this.AptStore.GetDataNonformalizedDocument(
+                await this.DiadocStore.GetDataNonformalizedDocument(
                     DocumentTitleFilter.GetFilterDocumentReport(sendingDocument.Key));
 
             var attachment = new NonformalizedAttachment
@@ -188,4 +211,6 @@ public class BuildUserData : IBuildUserData
             messageToPost.ToBoxId = dataForMessageToPost.BoxToId;
             messageToPost.NonformalizedDocuments.Add(attachment);
         }
+    
+  #endregion
 }

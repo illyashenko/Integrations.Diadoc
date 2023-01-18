@@ -5,9 +5,9 @@ namespace Integrations.Diadoc.Infrastructure.SubServices.ExternalExchangeDocumen
 
 public class ExternalExchangeDocumentsService
 {
-    private AptStore _store;
+    private DiadocStore _store;
 
-    public ExternalExchangeDocumentsService(AptStore store)
+    public ExternalExchangeDocumentsService(DiadocStore store)
     {
         this._store = store;
     }

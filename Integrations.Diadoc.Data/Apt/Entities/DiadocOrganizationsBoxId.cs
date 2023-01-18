@@ -22,6 +22,7 @@ namespace Integrations.Diadoc.Data.Apt.Entities
             builder.HasOne(p => p.CrmClients)
                 .WithOne(c => c.OrganizationsBoxId)
                 .HasPrincipalKey<CrmClients>(c => c.OrgId)
+                .OnDelete(DeleteBehavior.ClientNoAction)
                 .HasForeignKey<DiadocOrganizationsBoxId>(p => p.OrgId);
         }
     }

@@ -8,6 +8,7 @@ public class MonitoringContext : AptContext<MonitoringContext>
 {
     public DbSet<Job> Jobs { get; set; }
     public DbSet<DiadocSendingDocuments> DiadocSendingDocuments { get; set; }
+    public DbSet<DiadocAcquireCounteragent?> DiadocAcquireCounteragents { get; set; }
     public MonitoringContext(DbContextOptions<MonitoringContext> context) : base(context)
     {
     }
@@ -16,5 +17,6 @@ public class MonitoringContext : AptContext<MonitoringContext>
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new JobsConfiguration());
         modelBuilder.ApplyConfiguration(new DiadocSendingDocumentsConfiguration());
+        modelBuilder.ApplyConfiguration(new DiadocAcquireCounteragentConfiguration());
     }
 }

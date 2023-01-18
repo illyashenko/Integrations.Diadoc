@@ -12,6 +12,7 @@ namespace Integrations.Diadoc.Data.Apt.Entities
         public int ClientOwnerId { get; set; }
         public DiadocOrganizationsBoxId? OrganizationsBoxId { get; set; }
         public Contracts? Contracts { get; set; }
+        public Clients? Clients { get; set; }
     }
     public class CrmClientsConfiguration : LegacyTableConfiguration<CrmClients>
     {

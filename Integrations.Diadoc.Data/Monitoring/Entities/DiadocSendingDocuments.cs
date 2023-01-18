@@ -11,6 +11,7 @@ public class DiadocSendingDocuments
     public byte[]? Content { get; set; }
     public Guid RequestId { get; set; }
     public bool Bill { get; set; }
+    public int Organization { get; set; }
 }
 
 public class DiadocSendingDocumentsConfiguration : IEntityTypeConfiguration<DiadocSendingDocuments>
@@ -25,5 +26,6 @@ public class DiadocSendingDocumentsConfiguration : IEntityTypeConfiguration<Diad
         builder.Property(p => p.Content).HasColumnName("Content");
         builder.Property(p => p.RequestId).HasColumnName("RequestId");
         builder.Property(p => p.Bill).HasColumnName("Bill");
+        builder.Property(p => p.Organization).HasColumnName("Organization");
     }
 }

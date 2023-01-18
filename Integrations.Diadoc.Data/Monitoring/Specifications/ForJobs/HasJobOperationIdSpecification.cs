@@ -19,5 +19,10 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
         {
             return j => j.OperationId == this.OperationId;
         }
+        
+        public static ISpecification<Job> CreateAsOr(IEnumerable<OperationId> ids)
+        {
+            return ids.ToOrSpecification(k => new HasJobOperationIdSpecification(k));
+        }
     }
 }

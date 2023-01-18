@@ -17,10 +17,6 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
             {
                 spec = spec.Or(new HasJobStatusSpecification(filter.Status));
             }
-            if (filter.OperationId != OperationId.Default)
-            {
-                spec = spec.And(new HasJobOperationIdSpecification(filter.OperationId));
-            }
             if (filter.ServerId != 0)
             {
                 spec = spec.And(new HasJobServerIdSpecification(filter.ServerId));
@@ -28,6 +24,10 @@ namespace Integrations.Diadoc.Data.Monitoring.Specifications.ForJobs
             if (filter.DateFrom != DateTime.MinValue)
             {
                 spec = spec.And(new HasJobDateOfCreateSpecification(filter.DateFrom));
+            }
+            if (filter.OperationIds is not null && filter.OperationIds.Any())
+            {
+                spec = spec.And(HasJobOperationIdSpecification.CreateAsOr(filter.OperationIds));
             }
 
             return spec.ToExpression();
