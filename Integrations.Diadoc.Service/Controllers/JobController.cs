@@ -32,7 +32,7 @@ public class JobController
         this._diadocSettings = diadocOptions.Value;
     }
 
-    [RunJob("0 41 * * * ?")]
+    [RunJob("0 1/10 * * * ?")]
     public async Task ProcessSendDocumentsAndAcquireClientsJobs()
     {
         var filter = new JobFilter
@@ -48,25 +48,6 @@ public class JobController
         };
 
         await ProcessJobs(filter);
-    }
-
-    //[RunJob("0 03 * * * ?")]
-    public async Task AddCheckAcquireClientsJob()
-    {
-        var job = new JobCandidate()
-        {
-            OperationId = OperationId.CheckClients,
-            Status = JobStatus.Prepared,
-            ServerId = _settings.TargetServerId,
-            CreateDate = DateTime.Now,
-            StartDate = DateTime.Now,
-            Data = JsonConvert.SerializeObject(new RequestIdData()
-            {
-                RequestId = new Guid("F66856BB-A5DA-468B-B4AB-01306A223BD1")
-            })
-        };
-
-        await this._store.AddJobAsync(job);
     }
 
     private async Task ProcessJobs(JobFilter filter)
